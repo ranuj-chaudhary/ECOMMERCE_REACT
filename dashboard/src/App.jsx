@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './App.css';
 import Router from './router/Router';
-import publicRoutes from './router/routes/publicRoutes';
+import publicRoutes from './router/routes/PublicRoutes';
 
 function App() {
   const [allRoutes, setAllRoutes] = useState([...publicRoutes]);
@@ -10,3 +10,4 @@ function App() {
 }
 
 export default App;
+ 

@@ -1,15 +1,21 @@
-import React, { lazy } from 'react';
+import React, { lazy, Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
-import "./index.css"
+import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
-
+import { Provider } from 'react-redux';
+import store from './store/Reducers';
+import Fallback from './views/pages/FallBack';
 const App = lazy(() => import('./App'));
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
-    <App />
+    <Provider store={store}>
+      <Suspense fallback={<Fallback />}>
+        <App />
+      </Suspense>
+    </Provider>
   </BrowserRouter>
 );
 
