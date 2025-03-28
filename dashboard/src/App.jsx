@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import './App.css';
 import Router from './router/Router';
-import publicRoutes from './router/routes/PublicRoutes';
-
+import PublicRoutes from './router/routes/PublicRoutes';
+import PrivateRoutes from './router/routes/ProtectRoutes';
 function App() {
-  const [allRoutes, setAllRoutes] = useState([...publicRoutes]);
+  const [allRoutes, setAllRoutes] = useState([...PublicRoutes, ...PrivateRoutes]);
 
   return <Router allRoutes={allRoutes} />;
 }

@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaGoogle } from 'react-icons/fa';
 import { FaFacebook } from 'react-icons/fa';
-import { useDispatch } from 'react-redux';
-
+import { useDispatch, useSelector } from 'react-redux';
 const Login = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const [state, setState] = useState({
     email: '',
@@ -13,8 +12,6 @@ const Login = () => {
   });
   const submit = (e) => {
     e.preventDefault();
-    console.log(state);
-    console.log('login successfull');
   };
   const inputHandle = (e) => {
     setState({
@@ -44,7 +41,7 @@ const Login = () => {
                 required
                 value={state.email}
                 onChange={inputHandle}
-                name='email'
+                name="email"
                 className="p-2 placeholder:text-gray-500 rounded-md text-purple-900 border-none focus:outline-2 focus:outline-purple-900"
               />
             </div>
@@ -56,7 +53,7 @@ const Login = () => {
                 id="password"
                 value={state.password}
                 onChange={inputHandle}
-                name='password'
+                name="password"
                 required
                 className="p-2 placeholder:text-gray-500 rounded-md text-purple-900 border-none focus:outline-2 focus:outline-purple-900"
               />

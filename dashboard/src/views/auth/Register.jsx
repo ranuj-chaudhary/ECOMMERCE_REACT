@@ -2,19 +2,27 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaGoogle } from 'react-icons/fa';
 import { FaFacebook } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
+import { admin_register } from '../../store/Reducers/authReducer';
 
 const Register = () => {
+  const dispatch = useDispatch();
+  const { successMessage, errorMessage } = useSelector((state) => state.auth);
+  console.log(successMessage, errorMessage);
   const [state, setState] = useState({
     name: '',
     email: '',
     password: '',
+    image: 'admin.png',
+    role: 'admin',
   });
 
   const submit = (e) => {
     // prevent page reloading
     e.preventDefault();
-    console.log(state);
+    dispatch(admin_register(state));
   };
+
   const inputHandle = (e) => {
     setState({
       ...state,

@@ -1,27 +1,33 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import { admin_login } from '../../store/Reducers/authReducer';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const AdminLogin = () => {
-  const dispatch = useDispatch()
-
+  const dispatch = useDispatch();
   const [state, setState] = useState({
     email: '',
     password: '',
   });
 
+  const { userInfo } = useSelector((state) => state.auth);
+
   const submit = (e) => {
     e.preventDefault();
-    dispatch(admin_login(state))
-    
+    dispatch(admin_login(state));
   };
+
   const inputHandle = (e) => {
     setState({
       ...state,
       [e.target.name]: e.target.value,
     });
   };
+
+  if (userInfo.role === 'admin') {
+    return <Navigate to="/admin/dashboard" />;
+  }
+
   return (
     <main className="bg-purple-300">
       <h1 className="text-center pt-4 text-4xl text-purple-800 font-bold">
@@ -67,7 +73,7 @@ const AdminLogin = () => {
             </div>
 
             <div className="">
-              <button  className="font-bold w-full bg-gray-100 text-purple-700 rounded-md p-2 focus:scale-95 transition-transform duration-200">
+              <button className="font-bold w-full bg-gray-100 text-purple-700 rounded-md p-2 focus:scale-95 transition-transform duration-200">
                 Login
               </button>
             </div>
