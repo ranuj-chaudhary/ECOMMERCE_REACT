@@ -1,45 +1,59 @@
-import Admin from '../modals/adminModel.js';
+import AdminModel from '../modals/adminModel.js';
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import { createToken } from '../utiles/tokenCreate.js';
+import { responseReturn } from '../utiles/responseReturn.js';
 
 class authControllers {
   admin_login = async (req, res) => {
     // login logic
     const { email } = req.body; // get email and password from req.body
     try {
-      const user = await Admin.findOne({ email }); // find user by email
+      const admin = await AdminModel.findOne(
+        { email },
+        { email: 1, password: 1, role: 1 }
+      ); // find admin by email
 
       const { password } = req.body; // get password from req.body
-      // check if user exists and password is correct
-      if (!user || !(await bcrypt.compare(password, user.password))) {
-        return res
-          .status(400)
-          .json({ status: 'error', message: 'Invalid credentials' }); // Send error response
-      } // check if user exists and password is correct
 
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: '1h',
-      }); // create token
+      if (admin) {
+        // check if admin exists and password is correct
+        if (!(await bcrypt.compare(password, admin.password))) {
+          return responseReturn(res, 400, {
+            status: 'error',
+            message: 'Invalid Password',
+          });
+        }
 
-      res.status(200).json({
-        user: {
-          id: user._id,
-          name: user.name,
-          email: user.email,
-          role: user.role
-        },
-        status: 'success',
-        message: 'User logged in successfully',
-        token,
-      });   // send response
-    
+        const token = await createToken({
+          id: admin._id,
+          role: admin.role,
+          email: admin.email,
+         
+        }); // create token
 
+        // Sets a cookie in the response header (does not send the response).
+        res.cookie('accessToken', token, {
+          expiresIn: new Date(Date.now()) + 7 * 24 * 60 * 60 * 1000,
+        }); // set cookies
 
+        return responseReturn(res, 200, {
+          status: 'success',
+          message: 'User logged in successfully',
+          token,
+        });
+      } else {
+        // if admin email not exists
+        return responseReturn(res, 400, {
+          status: 'error',
+          message: 'Invalid Email Id',
+        });
+      }
     } catch (error) {
       console.log(error);
-      res
-        .status(500)
-        .json({ error: 'An error occurred while processing your request.' }); // Send error response
+      return responseReturn(res, 500, {
+        status: 'error',
+        message: 'An error occurred while processing your request.',
+      }); // Send error response
     }
   };
   admin_register = async (req, res) => {
@@ -47,12 +61,13 @@ class authControllers {
     const { name, role, image, email, password } = req.body; // get email and password from req.body
     try {
       // check if already exists
-      let user = await Admin.findOne({ email }); // find user by email
+      let user = await AdminModel.findOne({ email }); // find user by email
       if (user) {
         // check if user already exists
-        return res
-          .status(400)
-          .json({ status: 'error', message: 'User already exists' }); // Send error response
+        return responseReturn(res, 400, {
+          status: 'error',
+          message: 'User already exists',
+        }); // Send error response
       }
 
       // hash password
@@ -60,7 +75,7 @@ class authControllers {
       const hashedPassword = await bcrypt.hash(password, salt); // hash password
 
       // create user
-      user = new Admin({
+      user = new AdminModel({
         name,
         role,
         image,
@@ -72,12 +87,10 @@ class authControllers {
       await user.save(); // save user
 
       // create token
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: '1h',
-      }); // create token
+      const token = await createToken({ id: user._id }); // create token
 
       // send response
-      res.status(201).json({
+      return responseReturn(res, 201, {
         success: true,
         message: 'User registered successfully',
         user: {
@@ -89,23 +102,51 @@ class authControllers {
       });
     } catch (error) {
       console.log(error);
-      res.status(500).json({
+      return responseReturn(res, 500, {
         status: 'error',
         message: 'An error occurred while processing your request.',
       }); // Send error response
     }
   };
-  admin_users = async (req, res) => {
+
+  getUser = async (req, res) => {
+    const { id, role } = req;
+    // if forgot to add payload, or claim
+    if (!id || !role) {
+      return responseReturn(res, 422, {
+        status: 'error',
+        error: 'Unprocessable Entity',
+        message:
+          'The provided JWT token is missing required claims or contains invalid values.',
+      });
+    }
+
     // register logic
     try {
-      const response = await Admin.find(); // get all users
-      console.log(response); //admin users
-      res.status(201).json(response);
+      // fetch new updated database data (double security to confirm)
+      const admin = await AdminModel.findById(id); // get all users
+
+      // Check if the user exists and has the 'admin' role
+      if (!admin || admin.role !== role) {
+        return responseReturn(res, 403, {
+          status: 'error',
+          message: 'Access denied. Admin privileges required.',
+        });
+      }
+
+      // Return the admin user details
+      return responseReturn(res, 201, {
+        id: admin._id,
+        name: admin.name,
+        email: admin.email,
+        
+      });
     } catch (error) {
       console.log(error);
-      res
-        .status(500)
-        .json({ error: 'An error occurred while processing your request.' }); // Send error response
+      responseReturn(res, 500, {
+        status: 'error',
+        message: 'An error occurred while processing your request.',
+      });
     }
   };
 }

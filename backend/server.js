@@ -4,20 +4,23 @@ import express from 'express';
 import cors from 'cors';
 import authRoutes from './routes/authRoutes.js';
 import cookieParser from 'cookie-parser';
-import mongoose from 'mongoose';
+import dbConnect from './utiles/db.js';
 
 dotenv.config();
+
+const port = process.env.PORT || 5000;
 
 const app = express();
 
 // middleware
 
 // cross origin
+
 app.use(
   cors({
     origin: ['http://localhost:3000'], // Allow frontend origin
     credentials: true, // Allow cookies
-    options: ['GET', 'POST'], // Allow the request methods
+    methods: ['GET', 'POST'], // Allow the request methods
   })
 );
 
@@ -30,20 +33,10 @@ app.use(cookieParser());
 // api routes
 app.use('/api/auth', authRoutes);
 
-const port = process.env.PORT || 5000;
+// connect mongodb
+dbConnect();
 
-mongoose
-  .connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    //database connected
-    console.log('MongoDB Connected');
-
-    // start server
-    app.listen(port, () => {
-      console.log(`Server is running on port ${port}`);
-    });
-  })
-  .catch((err) => console.error('MongoDB Connection Error:', err));
+// start server
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
