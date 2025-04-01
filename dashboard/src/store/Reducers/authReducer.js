@@ -1,18 +1,54 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import api from '../../api/api';
-// handling asynchronising actions
 
-export const admin_login = createAsyncThunk('auth/login', async (info) => {
-  try {
-    const { data } = await api.post('/auth/login', info, {
-      withCredentials: true,
-    });
-    return data;
-  } catch (err) {
-    console.error(err);
-    return err.response.data;
+// handling asynchronising actions
+const initialState = {
+  successMessage: '',
+  errorMessage: '',
+  loading: false,
+  token: localStorage.getItem('token') || null,
+  userInfo: JSON.parse(localStorage.getItem('userInfo')) || {
+    role: 'guest',
+    name: '',
+    email: '',
+  },
+};
+
+export const admin_login = createAsyncThunk(
+  'auth/login',
+  async (info, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.post('/auth/login', info, {
+        withCredentials: true,
+      });
+      const localTime = new Date().toLocaleString();
+      return fulfillWithValue(data, { fetchedAt: localTime });
+    } catch (error) {
+      return handleAxiosError(error, rejectWithValue);
+    }
   }
-});
+);
+
+function handleAxiosError(error, rejectWithValue) {
+  if (error.response) {
+    // HTTP Errors (4xx, 5xx)
+    console.error(`HTTP Error ${error.response.status}:`, error.response.data);
+
+    return rejectWithValue({
+      message: error.response.data.message || 'Server error',
+    });
+  } else if (error.request) {
+    console.error('Network error: No response received.');
+    // Network Errors (No response)
+    return rejectWithValue({
+      message: 'Network error. Please check your connection.',
+    });
+  } else {
+    console.error('Unexpected error:', error.message);
+    // Other Errors (e.g., syntax errors)
+    return rejectWithValue({ message: 'Unexpected error occurred' });
+  }
+}
 
 export const admin_register = createAsyncThunk(
   'auth/register',
@@ -21,7 +57,6 @@ export const admin_register = createAsyncThunk(
       const { data } = await api.post('/auth/register', user, {
         withCredentials: true,
       });
-      console.log(data);
       return data;
     } catch (err) {
       console.error(err);
@@ -31,33 +66,29 @@ export const admin_register = createAsyncThunk(
 
 const authSlice = createSlice({
   name: 'auth',
-  initialState: {
-    successMessage: '',
-    errorMessage: '',
-    loading: false,
-    token: localStorage.getItem('token') || null,
-    userInfo: JSON.parse(localStorage.getItem('userInfo')) || {
-      role: 'guest',
-      name: '',
-      email: '',
+  initialState,
+  reducers: {
+    logout: () => initialState,
+    messageClear: (state, _) => {
+      state.errorMessage = '';
     },
   },
-  reducers: {},
-  extraReducers: (bulder) =>
-    bulder
+  extraReducers: (builder) =>
+    builder
       .addCase(admin_login.pending, (state, action) => {
         state.loading = true;
       })
       .addCase(admin_login.fulfilled, (state, action) => {
-        if (action.payload.status === 'error') {
+        if (!action.payload && action.payload.status === 'error') {
           state.errorMessage = action.payload.message;
         } else {
+          state.errorMessage = '';
           state.successMessage = action.payload.message;
-          state.userInfo = { ...action.payload.user };
           state.token = action.payload.token;
+          // state.userInfo = { ...action.payload.user };
           // update local storage
+          // localStorage.setItem('userInfo', JSON.stringify(state.userInfo));
 
-          localStorage.setItem('userInfo', JSON.stringify(state.userInfo));
           localStorage.setItem(
             'token',
             JSON.stringify({ token: action.payload.token })
@@ -66,8 +97,14 @@ const authSlice = createSlice({
         state.loading = false;
       })
       .addCase(admin_login.rejected, (state, action) => {
-        state.error = action.payload.message;
         state.loading = false;
+        if (action.payload?.status === 401) {
+          state.errorMessage = 'Unauthorized. Please log in again.';
+        } else if (action.payload?.status === 404) {
+          state.errorMessage = 'User not found.';
+        } else {
+          state.errorMessage = action.payload.message || 'An error occurred.';
+        }
       })
       .addCase(admin_register.pending, (state, action) => {
         state.loading = true;
@@ -81,11 +118,13 @@ const authSlice = createSlice({
         state.loading = false;
       })
       .addCase(admin_register.rejected, (state, action) => {
-        state.error = action.error.message;
+        state.errorMessage = action.error.message;
         state.loading = false;
       }),
 });
 
 const authReducer = authSlice.reducer;
+const { logout, messageClear } = authSlice.actions;
 
+export { logout, messageClear };
 export default authReducer;

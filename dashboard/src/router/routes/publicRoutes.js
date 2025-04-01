@@ -1,15 +1,10 @@
 import { lazy } from 'react';
 const Login = lazy(() => import('../../views/auth/Login'));
 const Register = lazy(() => import('../../views/auth/Register'));
-const Home = lazy(() => import('../../views/pages/Home'));
 const AdminLogin = lazy(() => import('../../views/auth/AdminLogin'));
 const NotFound = lazy(() => import('../../views/pages/NotFound'));
 
-const PublicRoutes = [
-  {
-    path: '/',
-    element: <Home />,
-  },
+export const PublicRoutes = [
   {
     path: '/login',
     element: <Login />,
@@ -27,5 +22,3 @@ const PublicRoutes = [
     element: <NotFound />,
   },
 ];
-
-export default PublicRoutes;
