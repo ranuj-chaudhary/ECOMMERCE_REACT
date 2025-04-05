@@ -5,6 +5,6 @@ export const AdminRoutes = [
   {
     path: '/admin/dashboard',
     element: <AdminDashBoard />,
-    role: 'admin',
+    role: 'admin'
   },
 ];

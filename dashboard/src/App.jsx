@@ -8,8 +8,10 @@ function App() {
   const [allRoutes, setAllRoutes] = useState([...PublicRoutes]);
 
   useEffect(() => {
-    const routes = getRoutes();
-    setAllRoutes((allRoutes) => [...allRoutes, ...routes]);
+    const route = getRoutes();
+    if (route) {
+      setAllRoutes((allRoutes) => [...allRoutes, route]);
+    }
   }, []);
 
   return <Router allRoutes={allRoutes} />;
