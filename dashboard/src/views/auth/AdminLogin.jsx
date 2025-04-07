@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { admin_login, messageClear } from '../../store/Reducers/authReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import InputField from './../components/InputField';
 import Button from '../components/Button';
+import Logo from '../components/Logo';
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ const AdminLogin = () => {
     password: '',
   });
 
-  const { userInfo, errorMessage, loading, successMessage } = useSelector(
+  const { role, errorMessage, loader, successMessage } = useSelector(
     (state) => state.auth
   );
 
@@ -31,20 +32,21 @@ const AdminLogin = () => {
     });
   };
 
+
   useEffect(() => {
-    if (userInfo.role.includes('admin') && successMessage) {
+    if (role === 'admin') {
       setTimeout(() => {
-        toast.success(successMessage, {
-          duration: 2000, // Toast will disappear after 2 seconds
+        toast.success(successMessage || "login successfull", {
+          duration: 1000, // Toast will disappear after 2 seconds
         });
 
         // Navigate after showing the toast
         setTimeout(() => {
           navigate('/admin/dashboard');
-        }, 1000);
+        }, 2000);
       }, 500);
     }
-  }, [userInfo.role, successMessage, navigate]);
+  }, [role, successMessage, navigate]);
 
   useEffect(() => {
     if (errorMessage) {
@@ -61,13 +63,7 @@ const AdminLogin = () => {
       <div className="min-w-screen min-h-screen  flex justify-center items-center">
         <div className="shadow-md shadow-purple-700 p-4 w-[350px] bg-purple-600 rounded-md  text-white m-0">
           <form onSubmit={submit}>
-            <div className="font-bold text-2xl mb-4 flex justify-center">
-              <img
-                src="/images/logo.png"
-                alt=""
-                className="object-cover aspect-auto"
-              />
-            </div>
+            <Logo className="font-bold text-2xl mb-4 flex justify-center" />
             <InputField
               label={'Email'}
               type="email"
@@ -77,6 +73,7 @@ const AdminLogin = () => {
               value={state.email}
               onChange={inputHandle}
               name="email"
+              autoComplete="on"
               className="p-2 placeholder:text-gray-500 rounded-md text-purple-900 border-none focus:outline-2 focus:outline-purple-900"
             />
             <InputField
@@ -88,21 +85,21 @@ const AdminLogin = () => {
               onChange={inputHandle}
               name="password"
               required
+              autoComplete="on"
               className="p-2 placeholder:text-gray-500 rounded-md text-purple-900 border-none focus:outline-2 focus:outline-purple-900"
             />
             <Button
               type="submit"
               className="flex justify-center items-center gap-2 font-bold w-full bg-gray-100 text-purple-700 rounded-md p-2 active:scale-95 transition-all duration-200"
-              loading={loading}
+              loading={loader}
               spinner={true}
-              disabled={loading}
+              disabled={loader}
             >
               Login
             </Button>
           </form>
         </div>
       </div>
-      <Toaster />
     </main>
   );
 };
