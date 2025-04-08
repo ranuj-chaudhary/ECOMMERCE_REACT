@@ -16,7 +16,7 @@ export const admin_login = createAsyncThunk(
   'auth/login',
   async (info, { rejectWithValue, fulfillWithValue }) => {
     try {
-      const { data } = await api.post('/auth/login', info, {
+      const { data } = await api.post('/login', info, {
         withCredentials: true,
       });
       localStorage.setItem('accessToken', data.token);
@@ -31,7 +31,7 @@ export const get_user_info = createAsyncThunk(
   'auth/get_user_info',
   async (_, { rejectWithValue, fulfillWithValue }) => {
     try {
-      const { data } = await api.get('/auth/get_user', {
+      const { data } = await api.get('/get_user', {
         withCredentials: true,
       });
 
@@ -42,18 +42,40 @@ export const get_user_info = createAsyncThunk(
     }
   }
 );
-export const logout_user = createAsyncThunk(
-  'auth/logout_user',
-  async (_, { rejectWithValue, fulfillWithValue }) => {
+export const logout = createAsyncThunk(
+  'auth/logout',
+  async ({ role, navigate }, { rejectWithValue, fulfillWithValue }) => {
     try {
-      const { data } = await api.get('/auth/logout', {
+      const { data } = await api.get('/logout', {
         withCredentials: true,
       });
+
+      localStorage.removeItem('accessToken');
+
+      if (role === 'admin') {
+        navigate(`/admin/login?message=${data.message}`, { replace: true });
+      } else {
+        navigate(`/login?message=${data.message}`, { replace: true });
+      }
 
       const localTime = new Date().toLocaleString();
       return fulfillWithValue(data, { fetchedAt: localTime });
     } catch (error) {
       return handleAxiosError(error, rejectWithValue);
+    }
+  }
+);
+
+export const admin_register = createAsyncThunk(
+  'auth/register',
+  async (user) => {
+    try {
+      const { data } = await api.post('/auth/register', user, {
+        withCredentials: true,
+      });
+      return data;
+    } catch (err) {
+      console.error(err);
     }
   }
 );
@@ -84,7 +106,6 @@ function returnRole(token) {
     const decoded = jwtDecode(token);
     const expiryTime = decoded.exp * 1000;
     const currentTime = new Date(Date.now());
-    console.log(decoded);
     if (currentTime <= expiryTime) {
       return decoded.role;
     } else {
@@ -96,25 +117,10 @@ function returnRole(token) {
   }
 }
 
-export const admin_register = createAsyncThunk(
-  'auth/register',
-  async (user) => {
-    try {
-      const { data } = await api.post('/auth/register', user, {
-        withCredentials: true,
-      });
-      return data;
-    } catch (err) {
-      console.error(err);
-    }
-  }
-);
-
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    logout: () => initialState,
     messageClear: (state, _) => {
       state.errorMessage = '';
     },
@@ -156,6 +162,17 @@ const authSlice = createSlice({
         }
         state.loader = false;
       })
+      .addCase(logout.fulfilled, (state, action) => {
+        if (action.payload.status === 'error') {
+          state.errorMessage = action.payload.message;
+        } else {
+          state.successMessage = action.payload.message;
+          state.token = '';
+          state.role = action.payload.role;
+          state.userInfo = {};
+        }
+        state.loader = false;
+      })
       .addCase(admin_register.fulfilled, (state, action) => {
         if (action.payload.status === 'error') {
           state.errorMessage = action.payload.message;
@@ -171,7 +188,7 @@ const authSlice = createSlice({
 });
 
 const authReducer = authSlice.reducer;
-const { logout, messageClear } = authSlice.actions;
+const { messageClear } = authSlice.actions;
 
-export { logout, messageClear };
+export { messageClear };
 export default authReducer;

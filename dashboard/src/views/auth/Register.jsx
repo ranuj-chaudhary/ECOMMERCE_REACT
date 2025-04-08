@@ -61,14 +61,15 @@ const Register = () => {
                 Name
               </label>
               <input
-                type="text"
                 placeholder="Ranuj Choudhary"
+                type="text"
                 id="name"
+                name="name"
+                autoComplete="name"
                 onChange={inputHandle}
                 value={state.name}
                 required
                 className="p-2 placeholder:text-gray-500 rounded-md text-purple-900 border-none focus:outline-2 focus:outline-purple-900"
-                name="name"
               />
             </div>
             <div className="flex flex-col gap-1 mb-4 ">
@@ -83,6 +84,7 @@ const Register = () => {
                 onChange={inputHandle}
                 value={state.email}
                 required
+                autoComplete="email"
                 className="p-2 placeholder:text-gray-500 rounded-md text-purple-900 border-none focus:outline-2 focus:outline-purple-900"
               />
             </div>
@@ -96,6 +98,7 @@ const Register = () => {
                 onChange={inputHandle}
                 value={state.password}
                 required
+                autoComplete="new-password"
                 className="p-2 placeholder:text-gray-500 rounded-md text-purple-900 border-none focus:outline-2 focus:outline-purple-900"
               />
             </div>

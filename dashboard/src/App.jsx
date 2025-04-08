@@ -10,7 +10,6 @@ function App() {
   const dispatch = useDispatch();
   const { role } = useSelector((state) => state.auth);
 
-
   useEffect(() => {
     const route = getRoutes();
     if (route) {
@@ -19,8 +18,10 @@ function App() {
   }, []);
 
   useEffect(() => {
-    dispatch(get_user_info());
-  }, [role, dispatch]);
+    if (role === 'admin') {
+      dispatch(get_user_info());
+    }
+  }, [role, dispatch]); 
 
   return <Router allRoutes={allRoutes} />;
 }

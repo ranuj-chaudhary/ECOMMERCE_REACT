@@ -6,20 +6,26 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store/Reducers';
+import FallBack from './views/pages/ErrorBoundary';
+import ErrorBoundary from './views/pages/ErrorBoundary';
+// component
+
 const App = lazy(() => import('./App'));
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <Provider store={store}>
-      <Suspense>
-        <App />
-        <Toaster
-          toastOptions={{
-            duration: 2000, // Set the duration for all toasts
-          }}
-        />
-      </Suspense>
+      <ErrorBoundary>
+        <Suspense fallback={<FallBack />}>
+          <App />
+          <Toaster
+            toastOptions={{
+              duration: 2000, // Set the duration for all toasts
+            }}
+          />
+        </Suspense>
+      </ErrorBoundary>
     </Provider>
   </BrowserRouter>
 );

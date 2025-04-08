@@ -54,6 +54,7 @@ class authControllers {
       console.log(error);
       return responseReturn(res, 500, {
         status: 'error',
+        error: error.message,
         message: 'An error occurred while processing your request.',
       }); // Send error response
     }
@@ -106,6 +107,7 @@ class authControllers {
       console.log(error);
       return responseReturn(res, 500, {
         status: 'error',
+        error: error.message,
         message: 'An error occurred while processing your request.',
       }); // Send error response
     }
@@ -146,8 +148,30 @@ class authControllers {
       console.log(error);
       responseReturn(res, 500, {
         status: 'error',
+        error: error.message,
         message:
           'An error occurred while processing your request to fetch authentication data from database.',
+      });
+    }
+  };
+
+  logout = async (req, res) => {
+    try {
+      res.cookie('accessToken', null, {
+        httpOnly: 'true',
+        expires: new Date(Date.now()),
+      });
+
+      responseReturn(res, 200, {
+        status: 'success',
+        message: 'User Logout Successfully',
+        role: '',
+      });
+    } catch (error) {
+      responseReturn(res, 500, {
+        status: 'error',
+        error: error.message,
+        message: 'Server Error you request cannot be fullfilled',
       });
     }
   };

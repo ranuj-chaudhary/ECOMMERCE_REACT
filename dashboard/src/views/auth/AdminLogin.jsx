@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { admin_login, messageClear } from '../../store/Reducers/authReducer';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import InputField from './../components/InputField';
 import Button from '../components/Button';
 import Logo from '../components/Logo';
 
 const AdminLogin = () => {
+  const [searchParams] = useSearchParams();
+  const logoutMessage = searchParams.get('message');
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [state, setState] = useState({
@@ -20,7 +22,6 @@ const AdminLogin = () => {
   );
 
   const submit = (e) => {
-    console.log(e);
     e.preventDefault();
     dispatch(admin_login(state));
   };
@@ -32,18 +33,17 @@ const AdminLogin = () => {
     });
   };
 
-
   useEffect(() => {
     if (role === 'admin') {
       setTimeout(() => {
-        toast.success(successMessage || "login successfull", {
-          duration: 1000, // Toast will disappear after 2 seconds
+        toast.success(successMessage || 'login successfull', {
+          duration: 800, // Toast will disappear after 2 seconds
         });
 
         // Navigate after showing the toast
         setTimeout(() => {
-          navigate('/admin/dashboard');
-        }, 2000);
+          navigate('/admin/dashboard', { replace: true });
+        }, 1300);
       }, 500);
     }
   }, [role, successMessage, navigate]);
@@ -54,6 +54,18 @@ const AdminLogin = () => {
       dispatch(messageClear());
     }
   }, [errorMessage, dispatch]);
+
+  useEffect(() => {
+    if (logoutMessage) {
+      setTimeout(() => {
+        toast.success(logoutMessage || 'logout successfull', {
+          duration: 1000, // Toast will disappear after 2 seconds
+        });
+      }, 200);
+    }
+    // Do cleanup or show custom message
+    // You can also redirect after a delay
+  }, [logoutMessage]);
 
   return (
     <main className="bg-purple-300">
@@ -73,7 +85,7 @@ const AdminLogin = () => {
               value={state.email}
               onChange={inputHandle}
               name="email"
-              autoComplete="on"
+              autoComplete="email"
               className="p-2 placeholder:text-gray-500 rounded-md text-purple-900 border-none focus:outline-2 focus:outline-purple-900"
             />
             <InputField
@@ -85,7 +97,7 @@ const AdminLogin = () => {
               onChange={inputHandle}
               name="password"
               required
-              autoComplete="on"
+              autocomplete="current-password"
               className="p-2 placeholder:text-gray-500 rounded-md text-purple-900 border-none focus:outline-2 focus:outline-purple-900"
             />
             <Button
