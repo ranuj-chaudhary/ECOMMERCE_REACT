@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaGoogle } from 'react-icons/fa';
 import { FaFacebook } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { admin_register } from '../../store/Reducers/authReducer';
+import toast from 'react-hot-toast';
 
 const Register = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { successMessage, errorMessage } = useSelector((state) => state.auth);
   console.log(successMessage, errorMessage);
@@ -29,6 +31,21 @@ const Register = () => {
       [e.target.name]: e.target.value,
     });
   };
+
+  useEffect(() => {
+    if (successMessage) {
+      setTimeout(() => {
+        toast.success(successMessage, {
+          duration: 2000, // Toast will disappear after 2 seconds
+        });
+
+        // Navigate after showing the toast
+        setTimeout(() => {
+          navigate('/login');
+        }, 1000);
+      }, 500);
+    }
+  }, [successMessage, navigate]);
   return (
     <main className="bg-purple-300">
       <h1 className="text-center pt-4 text-4xl text-purple-800 font-bold">
@@ -44,14 +61,15 @@ const Register = () => {
                 Name
               </label>
               <input
-                type="text"
                 placeholder="Ranuj Choudhary"
+                type="text"
                 id="name"
+                name="name"
+                autoComplete="name"
                 onChange={inputHandle}
                 value={state.name}
                 required
                 className="p-2 placeholder:text-gray-500 rounded-md text-purple-900 border-none focus:outline-2 focus:outline-purple-900"
-                name="name"
               />
             </div>
             <div className="flex flex-col gap-1 mb-4 ">
@@ -66,6 +84,7 @@ const Register = () => {
                 onChange={inputHandle}
                 value={state.email}
                 required
+                autoComplete="email"
                 className="p-2 placeholder:text-gray-500 rounded-md text-purple-900 border-none focus:outline-2 focus:outline-purple-900"
               />
             </div>
@@ -79,6 +98,7 @@ const Register = () => {
                 onChange={inputHandle}
                 value={state.password}
                 required
+                autoComplete="new-password"
                 className="p-2 placeholder:text-gray-500 rounded-md text-purple-900 border-none focus:outline-2 focus:outline-purple-900"
               />
             </div>

@@ -31,7 +31,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 // api routes
-app.use('/api/auth', authRoutes);
+app.use('/api', authRoutes);
 
 // connect mongodb
 dbConnect();

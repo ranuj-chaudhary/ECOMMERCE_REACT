@@ -1,11 +1,17 @@
 import { lazy } from 'react';
-const Home = lazy(() => import('../../views/pages/Home'));
-
+import ProtectRoute from '../../views/auth/ProtectRoute';
+const SellerDashboard = lazy(() =>
+  import('../../views/seller/SellerDashboard')
+);
 export const SellerRoutes = [
   {
-    path: '/',
-    element: <Home />,
-    ability: ['seller' , 'admin']
+    path: '/seller/dashboard',
+    element: (
+      <ProtectRoute>
+        <SellerDashboard />
+      </ProtectRoute>
+    ),
+
+    ability: ['seller', 'admin'],
   },
 ];
-

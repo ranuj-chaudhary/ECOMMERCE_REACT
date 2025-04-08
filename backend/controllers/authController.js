@@ -24,16 +24,18 @@ class authControllers {
           });
         }
 
+        // jwt.sign(payload, secret, { expiresIn: '7d' });
         const token = await createToken({
           id: admin._id,
           role: admin.role,
           email: admin.email,
-         
         }); // create token
 
         // Sets a cookie in the response header (does not send the response).
         res.cookie('accessToken', token, {
-          expiresIn: new Date(Date.now()) + 7 * 24 * 60 * 60 * 1000,
+          httpOnly: true, // only accessible by the web server
+          maxAge: 15 * 60 * 1000,
+          sameSite: 'Strict', // helps to prevent CSRF attacks
         }); // set cookies
 
         return responseReturn(res, 200, {
@@ -52,6 +54,7 @@ class authControllers {
       console.log(error);
       return responseReturn(res, 500, {
         status: 'error',
+        error: error.message,
         message: 'An error occurred while processing your request.',
       }); // Send error response
     }
@@ -104,12 +107,13 @@ class authControllers {
       console.log(error);
       return responseReturn(res, 500, {
         status: 'error',
+        error: error.message,
         message: 'An error occurred while processing your request.',
       }); // Send error response
     }
   };
 
-  getUser = async (req, res) => {
+  get_user = async (req, res) => {
     const { id, role } = req;
     // if forgot to add payload, or claim
     if (!id || !role) {
@@ -123,7 +127,7 @@ class authControllers {
 
     // register logic
     try {
-      // fetch new updated database data (double security to confirm)
+      // fetch new updated database data (double security to confirm if state is same)
       const admin = await AdminModel.findById(id); // get all users
 
       // Check if the user exists and has the 'admin' role
@@ -139,13 +143,35 @@ class authControllers {
         id: admin._id,
         name: admin.name,
         email: admin.email,
-        
       });
     } catch (error) {
       console.log(error);
       responseReturn(res, 500, {
         status: 'error',
-        message: 'An error occurred while processing your request.',
+        error: error.message,
+        message:
+          'An error occurred while processing your request to fetch authentication data from database.',
+      });
+    }
+  };
+
+  logout = async (req, res) => {
+    try {
+      res.cookie('accessToken', null, {
+        httpOnly: 'true',
+        expires: new Date(Date.now()),
+      });
+
+      responseReturn(res, 200, {
+        status: 'success',
+        message: 'User Logout Successfully',
+        role: '',
+      });
+    } catch (error) {
+      responseReturn(res, 500, {
+        status: 'error',
+        error: error.message,
+        message: 'Server Error you request cannot be fullfilled',
       });
     }
   };
