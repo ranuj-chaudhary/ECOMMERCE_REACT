@@ -11,8 +11,7 @@ const sidebarStyle = {
     'h-[100vh] w-64 bg-gray-200  p-5 transition-transform ease-linear duration-100 z-10 transform',
 };
 
-const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+const Sidebar = ({ isOpen, setIsOpen }) => {
   const [allNavs, setAllNavs] = useState([]);
   const { role } = useSelector((state) => state.auth);
 
@@ -33,7 +32,7 @@ const Sidebar = () => {
       <SidebarNav allNavs={allNavs} />
     </aside>
   ) : (
-    <MobileSidebar isOpen={isOpen} setIsOpen={setIsOpen} />
+    <MobileSidebar isOpen={isOpen} setIsOpen={setIsOpen} allNavs={allNavs} />
   );
 };
 
