@@ -34,7 +34,7 @@ class authControllers {
         // Sets a cookie in the response header (does not send the response).
         res.cookie('accessToken', token, {
           httpOnly: true, // only accessible by the web server
-          maxAge: 15 * 60 * 1000,
+          maxAge: 7 * 24 * 60 * 60 * 1000,
           sameSite: 'Strict', // helps to prevent CSRF attacks
         }); // set cookies
 

@@ -1,3 +1,7 @@
+import { jwtDecode } from 'jwt-decode';
+import toast from 'react-hot-toast';
+
+// utils
 export const clearCookies = () => {
   document.cookie.split(';').forEach((cookie) => {
     document.cookie = `${cookie
@@ -17,8 +21,7 @@ export const throttle = function throttle(func, limit) {
   };
 };
 
-
-export const  handleAxiosError = (error, rejectWithValue) => {
+export const handleAxiosError = (error, rejectWithValue) => {
   if (error.response) {
     // HTTP Errors (4xx, 5xx)
     console.error(`HTTP Error ${error.response.status}:`, error.response.data);
@@ -37,4 +40,59 @@ export const  handleAxiosError = (error, rejectWithValue) => {
     // Other Errors (e.g., syntax errors)
     return rejectWithValue({ message: 'Unexpected error occurred' });
   }
-}
+};
+
+export const saveToken = (token) => {
+  const decoded = jwtDecode(token);
+  const expiryTime = decoded.exp * 1000;
+  localStorage.setItem('token', JSON.stringify({ expiryTime: expiryTime }));
+};
+
+export const getToken = (key) => {
+  const itemStr = localStorage.getItem(key);
+  const item = JSON.parse(itemStr);
+  const now = new Date();
+
+  if (now.getTime() > item?.expiryTime) {
+    // Token expired
+    localStorage.removeItem(key);
+    return null;
+  }
+
+  return item;
+};
+
+export const removeToken = (key) => {
+  localStorage.removeItem(key);
+};
+
+export const returnRole = (token) => {
+  if (token) {
+    const decoded = jwtDecode(token);
+    const expiryTime = decoded.exp * 1000;
+    const currentTime = new Date(Date.now());
+    if (currentTime <= expiryTime) {
+      return decoded.role;
+    } else {
+      removeToken('authToken');
+      return '';
+    }
+  } else {
+    return '';
+  }
+};
+
+export const successToast = (successMessage, toastDuration) => {
+  setTimeout(() => {
+    toast.success(successMessage || '', {
+      duration: toastDuration, // Toast will disappear after 2 seconds
+    });
+  });
+};
+export const errorToast = (errorMessage, toastDuration) => {
+  setTimeout(() => {
+    toast.error(errorMessage || '', {
+      duration: toastDuration, // Toast will disappear after 2 seconds
+    });
+  });
+};

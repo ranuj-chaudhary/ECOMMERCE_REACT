@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import api from '../../api/api';
-import { jwtDecode } from 'jwt-decode';
-import { handleAxiosError } from '../../utils/utils';
+import { handleAxiosError, removeToken } from '../../utils/utils';
+import { saveToken, getToken, returnRole } from '../../utils/utils';
 
+// ASYNC THUNK
 export const admin_login = createAsyncThunk(
   'auth/login',
   async (info, { rejectWithValue, fulfillWithValue }) => {
@@ -10,7 +11,8 @@ export const admin_login = createAsyncThunk(
       const { data } = await api.post('/login', info, {
         withCredentials: true,
       });
-      localStorage.setItem('accessToken', data.token);
+      // Save Token
+      saveToken(data.token);
       const localTime = new Date().toLocaleString();
       return fulfillWithValue(data, { fetchedAt: localTime });
     } catch (error) {
@@ -18,6 +20,7 @@ export const admin_login = createAsyncThunk(
     }
   }
 );
+
 export const get_user_info = createAsyncThunk(
   'auth/get_user_info',
   async (_, { rejectWithValue, fulfillWithValue }) => {
@@ -33,24 +36,26 @@ export const get_user_info = createAsyncThunk(
     }
   }
 );
+
 export const logout = createAsyncThunk(
   'auth/logout',
   async ({ role, navigate }, { rejectWithValue, fulfillWithValue }) => {
     try {
+      // 1) call logout api
       const { data } = await api.get('/logout', {
         withCredentials: true,
       });
 
-      localStorage.removeItem('accessToken');
+      // 2) remove token
+      removeToken('token');
 
       if (role === 'admin') {
-        navigate(`/admin/login?message=${data.message}`, { replace: true });
+        navigate(`/admin/login?message=${data.message}`);
       } else {
-        navigate(`/login?message=${data.message}`, { replace: true });
+        navigate(`/login?message=${data.message}`);
       }
 
-      const localTime = new Date().toLocaleString();
-      return fulfillWithValue(data, { fetchedAt: localTime });
+      return fulfillWithValue(data, { fetchedAt: new Date().toLocaleString() });
     } catch (error) {
       return handleAxiosError(error, rejectWithValue);
     }
@@ -59,48 +64,35 @@ export const logout = createAsyncThunk(
 
 export const admin_register = createAsyncThunk(
   'auth/register',
-  async (user) => {
+  async (user, { rejectWithValue, fulfillWithValue }) => {
     try {
       const { data } = await api.post('/auth/register', user, {
         withCredentials: true,
       });
-      return data;
-    } catch (err) {
-      console.error(err);
+      return fulfillWithValue(data, { fetchedAt: new Date().toLocaleString() });
+    } catch (error) {
+      console.error(error);
+      return handleAxiosError(error, rejectWithValue);
     }
   }
 );
 
-function returnRole(token) {
-  if (token) {
-    const decoded = jwtDecode(token);
-    const expiryTime = decoded.exp * 1000;
-    const currentTime = new Date(Date.now());
-    if (currentTime <= expiryTime) {
-      return decoded.role;
-    } else {
-      localStorage.removeItem('accessToken');
-      return '';
-    }
-  } else {
-    return '';
-  }
-}
+const initialState = {
+  successMessage: '',
+  errorMessage: '',
+  loader: false,
+  userInfo: '',
+  role: returnRole(getToken('authToken')),
+};
 
 const authSlice = createSlice({
   name: 'auth',
-  initialState: {
-    successMessage: '',
-    errorMessage: '',
-    loader: false,
-    token: localStorage.getItem('accessToken') || null,
-    userInfo: '',
-    role: returnRole(localStorage.getItem('accessToken')),
-  },
+  initialState,
   reducers: {
     messageClear: (state, _) => {
       state.errorMessage = '';
     },
+    resetUser: () => initialState,
   },
   extraReducers: (builder) =>
     builder
@@ -113,8 +105,7 @@ const authSlice = createSlice({
         } else {
           state.errorMessage = '';
           state.successMessage = action.payload.message;
-          state.token = action.payload.token;
-          state.role = returnRole(state.token);
+          state.role = returnRole(action.payload.token);
         }
         state.loader = false;
       })
@@ -128,9 +119,6 @@ const authSlice = createSlice({
           state.errorMessage = action.payload.message || 'An error occurred.';
         }
       })
-      .addCase(admin_register.pending, (state, action) => {
-        state.loader = true;
-      })
       .addCase(get_user_info.fulfilled, (state, action) => {
         if (action.payload.status === 'error') {
           state.errorMessage = action.payload.message;
@@ -139,16 +127,8 @@ const authSlice = createSlice({
         }
         state.loader = false;
       })
-      .addCase(logout.fulfilled, (state, action) => {
-        if (action.payload.status === 'error') {
-          state.errorMessage = action.payload.message;
-        } else {
-          state.successMessage = action.payload.message;
-          state.token = '';
-          state.role = action.payload.role;
-          state.userInfo = {};
-        }
-        state.loader = false;
+      .addCase(admin_register.pending, (state, action) => {
+        state.loader = true;
       })
       .addCase(admin_register.fulfilled, (state, action) => {
         if (action.payload.status === 'error') {
@@ -165,7 +145,7 @@ const authSlice = createSlice({
 });
 
 const authReducer = authSlice.reducer;
-const { messageClear } = authSlice.actions;
+const { resetUser, messageClear } = authSlice.actions;
 
-export { messageClear };
+export { resetUser, messageClear };
 export default authReducer;

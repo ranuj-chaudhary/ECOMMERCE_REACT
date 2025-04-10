@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { admin_login, messageClear } from '../../store/Reducers/authReducer';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import InputField from './../components/InputField';
 import Button from '../components/Button';
 import Logo from '../components/Logo';
+import { errorToast, successToast } from '../../utils/utils';
 
 const AdminLogin = () => {
   const [searchParams] = useSearchParams();
@@ -36,35 +37,31 @@ const AdminLogin = () => {
   useEffect(() => {
     if (role === 'admin') {
       setTimeout(() => {
-        toast.success(successMessage || 'login successfull', {
-          duration: 800, // Toast will disappear after 2 seconds
-        });
+        successToast(successMessage, 1200);
 
         // Navigate after showing the toast
         setTimeout(() => {
           navigate('/admin/dashboard', { replace: true });
-        }, 1300);
-      }, 500);
+        }, 1800);
+      }, 0);
     }
   }, [role, successMessage, navigate]);
 
   useEffect(() => {
     if (errorMessage) {
-      toast.error(errorMessage, { duration: 2000 });
-      dispatch(messageClear());
+      errorToast(errorMessage, 1200);
+      setTimeout(() => {
+        dispatch(messageClear());
+      }, 2000);
     }
   }, [errorMessage, dispatch]);
 
   useEffect(() => {
     if (logoutMessage) {
       setTimeout(() => {
-        toast.success(logoutMessage || 'logout successfull', {
-          duration: 1000, // Toast will disappear after 2 seconds
-        });
-      }, 200);
+        successToast(logoutMessage || 'logout successfull', 2000);
+      }, 1000);
     }
-    // Do cleanup or show custom message
-    // You can also redirect after a delay
   }, [logoutMessage]);
 
   return (

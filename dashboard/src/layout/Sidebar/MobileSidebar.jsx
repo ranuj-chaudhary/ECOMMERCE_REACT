@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { logout } from '../../store/Reducers/authReducer';
 import { RiLogoutBoxFill } from 'react-icons/ri';
-
+import { resetUser } from '../../store/Reducers/authReducer';
 const sidebarStyle = {
   mobileSidebar:
     'left-0 top-0 bg-gray-200 transition-transform ease-linear duration-100 w-16 h-[100vh] flex flex-col justify-center items-center ',
@@ -19,6 +19,11 @@ const MobileSidebar = ({ isOpen, setIsOpen, allNavs }) => {
   const { role } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
+  function handleLogout({ role, navigate }) {
+    dispatch(logout({ role, navigate }));
+    dispatch(resetUser());
+  }
+
   return (
     <div
       className={`${!isOpen ? 'translate-x-0' : '-translate-x-full fixed'} ${
@@ -26,8 +31,8 @@ const MobileSidebar = ({ isOpen, setIsOpen, allNavs }) => {
       }`}
     >
       <Button
-        className="font-bold  text-2xl mb-4"
         onClick={() => setIsOpen(!isOpen)}
+        className="absolute right-6 top-4 font-bold text-2xl"
       >
         ☰
       </Button>
@@ -44,14 +49,13 @@ const MobileSidebar = ({ isOpen, setIsOpen, allNavs }) => {
               to={nav.path}
             >
               <span>{nav.icon}</span>
-              
             </Link>
           </li>
         ))}
         <li>
           <Link
             className={` ${sidebarStyle.list}`}
-            onClick={() => dispatch(logout({ role, navigate }))}
+            onClick={() => handleLogout({ role, navigate })}
           >
             <RiLogoutBoxFill />
           </Link>

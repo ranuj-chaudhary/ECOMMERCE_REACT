@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { logout } from '../../store/Reducers/authReducer';
+import { logout, resetUser } from '../../store/Reducers/authReducer';
 import { RiLogoutBoxFill } from 'react-icons/ri';
 
 const sidebarStyle = {
@@ -14,7 +14,11 @@ const SidebarNav = ({ allNavs }) => {
   const navigate = useNavigate();
   const { role } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-
+  function handleLogout({ role, navigate }) {
+      dispatch(logout({ role, navigate }));
+      dispatch(resetUser());
+    }
+  
   return (
     <ul>
       {allNavs.map((nav, i) => (
@@ -35,7 +39,7 @@ const SidebarNav = ({ allNavs }) => {
       <li>
         <Link
           className={` ${sidebarStyle.list}`}
-          onClick={() => dispatch(logout({ role, navigate }))}
+          onClick={() => handleLogout({ role, navigate })}
         >
           <RiLogoutBoxFill />
           Logout
