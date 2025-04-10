@@ -1,16 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import api from '../../api/api';
 import { jwtDecode } from 'jwt-decode';
-
-// handling asynchronising actions
-const initialState = {
-  successMessage: '',
-  errorMessage: '',
-  loader: false,
-  token: localStorage.getItem('accessToken') || null,
-  userInfo: '',
-  role: returnRole(localStorage.getItem('accessToken')),
-};
+import { handleAxiosError } from '../../utils/utils';
 
 export const admin_login = createAsyncThunk(
   'auth/login',
@@ -80,27 +71,6 @@ export const admin_register = createAsyncThunk(
   }
 );
 
-function handleAxiosError(error, rejectWithValue) {
-  if (error.response) {
-    // HTTP Errors (4xx, 5xx)
-    console.error(`HTTP Error ${error.response.status}:`, error.response.data);
-
-    return rejectWithValue({
-      message: error.response.data.message || 'Server error',
-    });
-  } else if (error.request) {
-    console.error('Network error: No response received.');
-    // Network Errors (No response)
-    return rejectWithValue({
-      message: 'Network error. Please check your connection.',
-    });
-  } else {
-    console.error('Unexpected error:', error.message);
-    // Other Errors (e.g., syntax errors)
-    return rejectWithValue({ message: 'Unexpected error occurred' });
-  }
-}
-
 function returnRole(token) {
   if (token) {
     const decoded = jwtDecode(token);
@@ -119,7 +89,14 @@ function returnRole(token) {
 
 const authSlice = createSlice({
   name: 'auth',
-  initialState,
+  initialState: {
+    successMessage: '',
+    errorMessage: '',
+    loader: false,
+    token: localStorage.getItem('accessToken') || null,
+    userInfo: '',
+    role: returnRole(localStorage.getItem('accessToken')),
+  },
   reducers: {
     messageClear: (state, _) => {
       state.errorMessage = '';
