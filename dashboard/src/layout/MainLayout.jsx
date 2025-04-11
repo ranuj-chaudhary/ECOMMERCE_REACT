@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import Header from './Header';
+import Header from './Header/Header';
 import Sidebar from './Sidebar/Sidebar';
 import { useState } from 'react';
 import { useResponsiveSidebarEffect } from './../hooks/useResponsiveSidebarEffect ';
