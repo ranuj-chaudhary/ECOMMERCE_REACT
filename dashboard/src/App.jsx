@@ -4,8 +4,8 @@ import Router from './router/Router';
 import { PublicRoutes } from './router/routes/PublicRoutes';
 import { getRoutes } from './router/routes/index';
 import { useDispatch, useSelector } from 'react-redux';
-import { get_user_info, logout, resetUser } from './store/Reducers/authReducer';
-import { getToken, removeToken } from './utils/utils';
+import { get_user_info } from './store/Reducers/authReducer';
+import { getToken } from './utils/utils';
 import useAutoLogout from './hooks/useAutoLogout';
 
 // APP COMPONENT

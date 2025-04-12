@@ -4,15 +4,11 @@ import Logo from '../../views/components/Logo';
 
 const SidebarHeader = ({ isOpen, setIsOpen }) => {
   return (
-    <div>
-      <Button
-        onClick={() => setIsOpen(!isOpen)}
-        className="absolute right-6 top-4 font-bold text-2xl"
-      >
+    <div className="flex justify-between items-center">
+      <Logo className="flex justify-center mt-4 h-12" />
+      <Button onClick={() => setIsOpen(!isOpen)} className="text-3xl font-bold">
         ☰
       </Button>
-
-      <Logo className="mt-4 w-full flex justify-center h-12" />
     </div>
   );
 };

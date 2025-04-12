@@ -7,13 +7,13 @@ import { useResponsiveSidebarEffect } from './../hooks/useResponsiveSidebarEffec
 const MainLayout = () => {
   const [isOpen, setShowSidebar] = useState(false);
 
-  useResponsiveSidebarEffect(setShowSidebar, 640, 250);
+  useResponsiveSidebarEffect(setShowSidebar, 768, 250);
 
   return (
-    <div className="min-h-screen flex ">
+    <div className="flex min-h-screen">
       <Sidebar isOpen={isOpen} setIsOpen={setShowSidebar} />
-      <div className="flex flex-col flex-1 ">
-        <Header />
+      <div className="flex flex-col flex-1">
+        <Header setIsOpen={setShowSidebar} isOpen={isOpen} />
         <main className="h-[calc(100vh-64px)] overflow-y-auto p-6">
           {<Outlet />}
         </main>
