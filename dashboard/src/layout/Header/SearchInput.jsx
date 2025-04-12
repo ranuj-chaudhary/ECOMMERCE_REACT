@@ -1,11 +1,11 @@
-import React from 'react'
-import InputField from '../../views/components/InputField'
-const SearchInput = () => {
+import React from 'react';
+import InputField from '../../views/components/InputField';
+const SearchInput = ({className}) => {
   return (
-    <div className='w-72'>
-      <InputField claasName='bg-gray-200 ' />
+    <div claasName={`${className}`}>
+      <InputField  />
     </div>
-  )
-}
+  );
+};
 
-export default SearchInput
+export default SearchInput;
