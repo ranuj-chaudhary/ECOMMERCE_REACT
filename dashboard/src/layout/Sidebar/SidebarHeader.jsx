@@ -1,6 +1,6 @@
 import React from 'react';
-import Button from '../../views/components/Button';
-import Logo from '../../views/components/Logo';
+import Button from '../../components/Button';
+import Logo from '../../components/Logo';
 
 const SidebarHeader = ({ isOpen, setIsOpen }) => {
   return (

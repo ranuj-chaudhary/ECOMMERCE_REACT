@@ -8,6 +8,7 @@ const InputField = ({
   onChange,
   name,
   placeholder,
+  className,
 }) => {
   return (
     <div className="flex flex-col gap-1 w-full">
@@ -20,7 +21,7 @@ const InputField = ({
         onChange={onChange}
         placeholder={placeholder}
         required
-        className="p-2 w-full text-purple-900 rounded-md border-none placeholder:text-gray-500 focus:outline-2 focus:outline-purple-900"
+        className={`${className}`}
       />
     </div>
   );

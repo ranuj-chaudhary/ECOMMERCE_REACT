@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { admin_login, messageClear } from '../../store/Reducers/authReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import toast from 'react-hot-toast';
-import InputField from './../components/InputField';
-import Button from '../components/Button';
-import Logo from '../components/Logo';
+import InputField from '../../components/InputField';
+import Button from '../../components/Button';
+import Logo from '../../components/Logo';
 import { errorToast, successToast } from '../../utils/utils';
 
 const AdminLogin = () => {
@@ -83,7 +82,7 @@ const AdminLogin = () => {
               onChange={inputHandle}
               name="email"
               autoComplete="email"
-              className="p-2 placeholder:text-gray-500 rounded-md text-purple-900 border-none focus:outline-2 focus:outline-purple-900"
+              className="p-2 mb-4 placeholder:text-gray-500 rounded-md text-purple-900 border-none focus:outline-2 focus:outline-purple-900"
             />
             <InputField
               label={'password'}
@@ -95,7 +94,7 @@ const AdminLogin = () => {
               name="password"
               required
               autocomplete="current-password"
-              className="p-2 placeholder:text-gray-500 rounded-md text-purple-900 border-none focus:outline-2 focus:outline-purple-900"
+              className="p-2 mb-4 placeholder:text-gray-500 rounded-md text-purple-900 border-none focus:outline-2 focus:outline-purple-900"
             />
             <Button
               type="submit"
