@@ -9,9 +9,10 @@ const InputField = ({
   name,
   placeholder,
   className,
+  wrapperClass,
 }) => {
   return (
-    <div className="flex flex-col gap-1 w-full">
+    <div className={`flex flex-col gap-1 w-full ${wrapperClass}`}>
       {label ? <label htmlFor={id}>{label}</label> : null}
       <input
         type={type}
