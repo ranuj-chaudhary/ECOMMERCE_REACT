@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from '../../views/components/Button';
+import Button from '../../components/Button';
 
 const sidebarStyle = {
   mobileSidebar:
