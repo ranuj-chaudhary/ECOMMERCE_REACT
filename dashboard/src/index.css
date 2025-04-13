@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --primary-color: #4f46e5;
+  --accent-color: #f59e0b;
+}
+
+
 *, *::after, *::before {
   box-sizing: border-box;
 }

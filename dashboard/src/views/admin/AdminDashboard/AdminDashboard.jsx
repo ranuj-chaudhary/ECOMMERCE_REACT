@@ -6,6 +6,8 @@ import { FaPeopleGroup } from 'react-icons/fa6';
 import StatCard from '../../../components/StatCard';
 import BarChart from '../../../components/BarChart';
 import SellerMessages from '../components/SellersMessages';
+import { Link } from 'react-router-dom';
+
 const AdminDashboard = () => {
   const [chartState] = useState({
     series: [
@@ -17,6 +19,17 @@ const AdminDashboard = () => {
       chart: { type: 'bar', height: 350 },
       plotOptions: {
         bar: { horizontal: false, columnWidth: '55%', borderRadius: 5 },
+      },
+      legend: {
+        show: true,
+        position: 'top', // 'top', 'right', 'left', 'bottom'
+        horizontalAlign: 'center',
+        fontSize: '14px',
+        fontWeight: 600,
+        labels: {
+          colors: '#ffffff', // Gray-700
+          useSeriesColors: false, // If true, uses line/bar colors
+        },
       },
       dataLabels: { enabled: false },
       stroke: { show: true, width: 2, colors: ['transparent'] },
@@ -32,11 +45,44 @@ const AdminDashboard = () => {
           'Sep',
           'Oct',
         ],
+        title: {
+          text: 'Months',
+          offsetY: -5, // helps make space
+          style: {
+            color: '#ffffff', // Indigo-600
+            fontSize: '16px',
+            fontWeight: 'bold',
+            fontFamily: 'inherit',
+          },
+        },
+        labels: {
+          style: {
+            colors: '#ffffff', // Indigo-600
+            fontSize: '14px',
+          },
+        },
       },
-      yaxis: { title: { text: '$ (thousands)' } },
+      yaxis: {
+        title: {
+          text: '$ (thousands)',
+          offsetX: -5,
+          style: {
+            color: '#ffffff', // Emerald-500
+            fontSize: '16px',
+            fontWeight: 'bold',
+            fontFamily: 'inherit',
+          },
+        },
+        labels: {
+          style: {
+            colors: '#ffffff', // Indigo-600
+            fontSize: '14px',
+          },
+        },
+      },
       fill: { opacity: 1 },
       tooltip: {
-        y: { formatter: (val) => `$ ${val} thousands` },
+        y: { text: 'Amount (in thounsands)' },
       },
       responsive: [
         {
@@ -89,6 +135,94 @@ const AdminDashboard = () => {
       <div className="flex flex-col gap-7 mt-7 w-full chart md:flex-row">
         <BarChart chartState={chartState} />
         <SellerMessages />
+      </div>
+
+      {/* Recent Orders */}
+      <div className="relative overflow-x-auto mt-4 bg-[var(--primary-color)]">
+        <table className="w-full text-sm text-left text-white">
+          <thead className="text-sm text-[#d0d2d6] uppercase border-b border-slate-700">
+            <tr>
+              <th scope="col" className="py-3 px-4">
+                Order Id
+              </th>
+              <th scope="col" className="py-3 px-4">
+                Price
+              </th>
+              <th scope="col" className="py-3 px-4">
+                Payment Status
+              </th>
+              <th scope="col" className="py-3 px-4">
+                Order Status
+              </th>
+              <th scope="col" className="py-3 px-4">
+                Active
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td className="py-3 px-4 font-medium whitespace-nowrap">
+                #313131
+              </td>
+              <td className="py-3 px-4 font-medium whitespace-nowrap">$123</td>
+              <td className="py-3 px-4 font-medium whitespace-nowrap">
+                pending
+              </td>
+              <td className="py-3 px-4 font-medium whitespace-nowrap">
+                pending
+              </td>
+              <td className="py-3 px-4 font-medium whitespace-nowrap">
+                <Link to={`/admin/dashboard/order/details/id`}>View</Link>
+              </td>
+            </tr>
+            <tr>
+              <td className="py-3 px-4 font-medium whitespace-nowrap">
+                #313131
+              </td>
+              <td className="py-3 px-4 font-medium whitespace-nowrap">$123</td>
+              <td className="py-3 px-4 font-medium whitespace-nowrap">
+                pending
+              </td>
+              <td className="py-3 px-4 font-medium whitespace-nowrap">
+                pending
+              </td>
+              <td className="py-3 px-4 font-medium whitespace-nowrap">
+                <Link to={`/admin/dashboard/order/details/id`}>View</Link>
+              </td>
+            </tr>
+            <tr>
+              <td className="py-3 px-4 font-medium whitespace-nowrap">
+                #313131
+              </td>
+              <td className="py-3 px-4 font-medium whitespace-nowrap">$123</td>
+              <td className="py-3 px-4 font-medium whitespace-nowrap">
+                pending
+              </td>
+              <td className="py-3 px-4 font-medium whitespace-nowrap">
+                pending
+              </td>
+              <td className="py-3 px-4 font-medium whitespace-nowrap">
+                <Link to={`/admin/dashboard/order/details/id`}>View</Link>
+              </td>
+            </tr>
+            <tr>
+              <td className="py-3 px-4 font-medium whitespace-nowrap">
+                #313131
+              </td>
+              <td className="py-3 px-4 font-medium whitespace-nowrap">$123</td>
+              <td className="py-3 px-4 font-medium whitespace-nowrap">
+                pending
+              </td>
+              <td className="py-3 px-4 font-medium whitespace-nowrap">
+                pending
+              </td>
+              <td className="py-3 px-4 font-medium whitespace-nowrap">
+                <Link to={`/admin/dashboard/order/details/id`}>View</Link>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   );
