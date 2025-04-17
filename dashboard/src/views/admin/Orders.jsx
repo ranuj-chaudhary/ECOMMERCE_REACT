@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import InputField from '../../components/InputField';
-
+import Pagination from '../../components/Pagination';
 const Orders = () => {
   return (
     <div className="overflow-x-auto mt-4 bg-[var(--primary-color)] p-4 w-full">
@@ -85,7 +85,12 @@ const Orders = () => {
         </tbody>
       </table>
       <div className="pagination">
-        
+        <Pagination
+          firstPage={1}
+          itemsPerPage={5}
+          totalItems={50}
+          lastPage={10}
+        />
       </div>
     </div>
   );
