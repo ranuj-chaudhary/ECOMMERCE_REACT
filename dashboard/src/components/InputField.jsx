@@ -10,6 +10,7 @@ const InputField = ({
   placeholder,
   className,
   wrapperClass,
+  onClick,
 }) => {
   return (
     <div className={`flex flex-col gap-1 w-full ${wrapperClass}`}>

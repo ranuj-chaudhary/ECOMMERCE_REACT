@@ -5,13 +5,14 @@
 :root {
   --primary-color: #4f46e5;
   --accent-color: #f59e0b;
+  --primary-button: #3b82f6;
 }
 
-
-*, *::after, *::before {
+*,
+*::after,
+*::before {
   box-sizing: border-box;
 }
-
 
 body {
   margin: 0;
@@ -20,7 +21,6 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
 }
 
 code {
