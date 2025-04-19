@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import InputField from '../../components/InputField';
+
 import Pagination from '../../components/Pagination';
 const Orders = () => {
+  const [itemsPerPage, setItemsPerPage] = useState(5);
   return (
     <div className="overflow-x-auto mt-4 bg-[var(--primary-color)] p-4 w-full">
       <div className="flex justify-between items-center gap-4 w-full">
@@ -10,6 +11,7 @@ const Orders = () => {
           name="pages"
           id=""
           className="w-10 h-10 text-center bg-gray-200 rounded-md "
+          onClick={(e) => setItemsPerPage(e.target.value)}
         >
           <option value="1">1</option>
           <option value="2">2</option>
@@ -84,10 +86,10 @@ const Orders = () => {
           </tr>
         </tbody>
       </table>
-      <div className="pagination">
+      <div className="pagination flex flex-end">
         <Pagination
           firstPage={1}
-          itemsPerPage={5}
+          itemsPerPage={itemsPerPage}
           totalItems={50}
           lastPage={10}
         />
