@@ -8,7 +8,7 @@ const Pagination = ({
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const [currentPage, setCurrentPage] = useState(1);
   const [groupStart, setGroupStart] = useState(1);
-
+ 
   const groupEnd = Math.min(groupStart + pageGroupSize - 1, totalPages);
 
   const pages = Array.from(
