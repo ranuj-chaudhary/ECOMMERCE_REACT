@@ -23,7 +23,7 @@ const Search = ({
 
       <input
         className=" px-4 py-2 rounded border border-gray-300 appearance-none   focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-        placeholder="Enter order to search"
+        placeholder="Search by name or id"
         name="search"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
