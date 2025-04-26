@@ -6,6 +6,11 @@
   --primary-color: #4f46e5;
   --accent-color: #f59e0b;
   --primary-button: #3b82f6;
+  --primary-button: #3b82f6;
+  --text-primary: #fff;
+  --text-secondary: #666;
+  --text-muted: #999;
+  --text-inverse: #000;
 }
 
 *,
