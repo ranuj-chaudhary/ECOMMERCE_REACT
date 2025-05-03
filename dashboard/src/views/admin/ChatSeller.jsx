@@ -45,8 +45,8 @@ const ChatSeller = () => {
     console.log(`message sent to ${id}: `, messageSent);
   }
   return (
-    <div className="h-full bg-[var(--primary-color)] text-[var(--text-primary)] p-4 rounded-md flex gap-4">
-      <div className="w-1/3 border-[1px] border-gray-200 h-full p-2 rounded-md overflow-y-auto">
+    <div className="h-full bg-[var(--primary-color)] text-[var(--text-primary)] p-4 rounded-md flex gap-4 relative">
+      <div className="w-2/3 sm:w-1/3 border-[1px] border-gray-200 h-full p-2 rounded-md overflow-y-auto">
         <h1 className="mb-4">Sellers</h1>
         <div className="friends flex flex-col gap-2">
           {userData.map((user, i) => (
@@ -59,7 +59,7 @@ const ChatSeller = () => {
           ))}
         </div>
       </div>
-      <div className="current-user w-2/3 border-[1px] border-gray-200 h-full p-2 rounded-md flex flex-col">
+      <div className="fixed z-20 sm:relative right-2 bottom-2 sm:right-0 sm:bottom-0  w-[350px] sm:w-2/3 border-[1px] border-gray-200 h-[85%] sm:h-full  p-2 rounded-md flex flex-col  bg-[var(--primary-color)]">
         <UserAvatarStatus status={currentUser.status} />
         <div className="chat-box  border-[1px] border-gray-200 p-2 rounded-md relative flex gap-4 h-full items-center flex-col">
           <div className="messages  flex-1 bg-gray-500 w-full rounded-md p-4">
@@ -96,7 +96,7 @@ function User({ user, onSetCurrentId, currentId }) {
       onClick={(e) => onSetCurrentId(e, currentUserId)}
     >
       <UserAvatarStatus status={status} />
-      <p className="uppercase">{name}</p>
+      <p className="uppercase text-xs sm:text-sm">{name}</p>
     </div>
   );
 }
@@ -106,7 +106,7 @@ function UserAvatarStatus({ status }) {
 
   return (
     <div
-      className={`my-2 rounded-full w-[40px] h-[40px] ${
+      className={`my-2 rounded-full w-[25px] h-[25px] sm:w-[40px] sm:h-[40px] ${
         isOnline ? 'ring-2 ring-green-600' : 'ring-2 ring-red-600'
       } p-[2px] relative z-2`}
     >
