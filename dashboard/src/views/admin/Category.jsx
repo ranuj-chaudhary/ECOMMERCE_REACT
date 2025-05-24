@@ -73,9 +73,9 @@ const Category = () => {
   }
 
   return (
-    <div className="w-full flex  text-white gap-2 ">
+    <div className="w-full flex  flex-col lg:flex-row text-white gap-2 ">
       {/* Category Table */}
-      <div className="w-7/12 bg-[var(--primary-color)] p-4 rounded-md flex flex-col items-center justify-center">
+      <div className=" lg:w-7/12 bg-[var(--primary-color)] p-4 rounded-md flex flex-col items-center justify-center">
         <Search
           itemsPerPage={itemsPerPage}
           setItemsPerPage={setItemsPerPage}
@@ -130,12 +130,12 @@ const Category = () => {
           </table>
         </div>
 
-        <div className="pagination mt-4">
+        <div className="mt-4 flex justify-center w-full">
           <Pagination totalItems={50} itemsPerPage={itemsPerPage} />
         </div>
       </div>
       {/* Add or Edit Category */}
-      <div className="w-5/12 bg-[var(--primary-color)] p-4 rounded-md">
+      <div className=" lg:w-5/12 bg-[var(--primary-color)] p-4 rounded-md">
         <h1 className="text-center capitalize text-2xl">
           {showEdit ? 'Edit Category' : 'Add Category'}
         </h1>

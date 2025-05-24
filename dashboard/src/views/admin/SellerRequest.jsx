@@ -82,15 +82,15 @@ const SellerRequest = () => {
                 Pending
               </td>
               <td className="whitespace-nowrap py-3 px-4 border border-white">
-                <label class="flex items-center cursor-pointer">
+                <label className="flex items-center cursor-pointer">
                   <input
                     type="checkbox"
                     checked={isChecked}
-                    class="sr-only peer"
+                    className="sr-only peer"
                     onChange={(e) => handleSellerStatus(e, 'id')}
                   />
-                  <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 dark:peer-focus:ring-green-500-800 rounded-full peer dark:bg-red-500 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-500 dark:peer-checked:bg-green-500"></div>
-                  <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300"></span>
+                  <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 dark:peer-focus:ring-green-500-800 rounded-full peer dark:bg-red-500 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-500 dark:peer-checked:bg-green-500"></div>
+                  <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300"></span>
                 </label>
               </td>
             </tr>

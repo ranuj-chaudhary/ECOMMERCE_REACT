@@ -7,6 +7,7 @@ const ChatSeller = () => {
   const [message, setMessage] = useState('');
   const { userInfo } = useSelector((state) => state.auth);
   const { id: loginUserId, name, email } = userInfo;
+  
   const userData = [
     {
       id: 1,
@@ -59,13 +60,16 @@ const ChatSeller = () => {
           ))}
         </div>
       </div>
-      <div className="current-user w-2/3 border-[1px] border-gray-200 h-full p-2 rounded-md flex flex-col">
+      <div className="current-user w-5/12  md:w-2/3 border-[1px] border-gray-200 h-[70%] md:h-full z-20 p-2 rounded-md flex flex-col fixed right-1 bottom-1 md:relative bg-[var(--primary-color)]">
         <UserAvatarStatus status={currentUser.status} />
-        <div className="chat-box  border-[1px] border-gray-200 p-2 rounded-md relative flex gap-4 h-full items-center flex-col">
-          <div className="messages  flex-1 bg-gray-500 w-full rounded-md p-4">
+        <div className="chat-box  border-[1px] border-gray-200 mb-2  rounded-md h-full relative flex gap-4 items-center flex-col overflow-y-auto">
+          <div className="messages bg-gray-500 w-full h-full rounded-md p-4 ">
             {/* Peding integration with web socket */}
+            <p className='flex items-center gap-2'><UserAvatarStatus status={'online'} /><span>Lorem ipsum dolor sit.</span></p>
           </div>
-          <div className="send-message flex gap-4 items-center w-full text-black">
+         
+        </div>
+         <div className="send-message flex gap-4 items-center w-full text-black">
             <InputField
               className={'p-2 rounded-md'}
               value={message}
@@ -79,7 +83,6 @@ const ChatSeller = () => {
               Send
             </Button>
           </div>
-        </div>
       </div>
     </div>
   );
