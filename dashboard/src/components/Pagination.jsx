@@ -69,6 +69,7 @@ const Pagination = ({
             {page}
           </li>
         ))}
+       {currentPage < (totalPages - pageGroupSize + 1) ? <li>• • •</li> : ''}
       </ul>
 
       <button
