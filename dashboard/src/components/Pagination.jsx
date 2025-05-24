@@ -4,6 +4,7 @@ const Pagination = ({
   totalItems = 0,
   itemsPerPage = 5,
   pageGroupSize = 5,
+  
 }) => {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const [currentPage, setCurrentPage] = useState(1);
@@ -47,7 +48,7 @@ const Pagination = ({
   }, [totalItems, itemsPerPage]);
 
   return (
-    <div className="text-white flex gap-4 items-center">
+    <div className="text-white flex items-center justify-between w-full lg:w-1/2 ">
       <button
         onClick={handlePrev}
         disabled={currentPage === 1}
@@ -56,11 +57,11 @@ const Pagination = ({
         Prev
       </button>
 
-      <ul className="flex gap-4">
+      <ul className="flex flex-1 justify-evenly">
         {pages.map((page) => (
           <li
             key={page}
-            className={`cursor-pointer w-8 h-8 rounded-full flex justify-center items-center ${
+            className={`cursor-pointer w-[2em] h-[2em] rounded-full flex justify-center items-center ${
               currentPage === page ? 'bg-blue-800' : 'bg-blue-600'
             }`}
             onClick={() => handlePageClick(page)}
