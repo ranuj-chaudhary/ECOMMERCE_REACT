@@ -130,9 +130,9 @@ const Category = () => {
           </table>
         </div>
 
-        <div className="mt-4 flex justify-center w-full">
+        
           <Pagination totalItems={50} itemsPerPage={itemsPerPage} />
-        </div>
+        
       </div>
       {/* Add or Edit Category */}
       <div className=" lg:w-5/12 bg-[var(--primary-color)] p-4 rounded-md">
