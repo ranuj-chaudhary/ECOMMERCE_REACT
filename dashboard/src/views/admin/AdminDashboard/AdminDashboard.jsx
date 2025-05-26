@@ -5,7 +5,7 @@ import { BsCart3 } from 'react-icons/bs';
 import { FaPeopleGroup } from 'react-icons/fa6';
 import StatCard from '../../../components/StatCard';
 import BarChart from '../../../components/BarChart';
-import SellerMessages from '../components/SellersMessages';
+import SellerMessages from '../../SellersMessages';
 import { Link } from 'react-router-dom';
 
 const AdminDashboard = () => {

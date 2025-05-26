@@ -66,7 +66,7 @@ export const admin_register = createAsyncThunk(
   'auth/register',
   async (user, { rejectWithValue, fulfillWithValue }) => {
     try {
-      const { data } = await api.post('/auth/register', user, {
+      const { data } = await api.post('/register', user, {
         withCredentials: true,
       });
       return fulfillWithValue(data, { fetchedAt: new Date().toLocaleString() });
@@ -82,7 +82,7 @@ const initialState = {
   errorMessage: '',
   loader: false,
   userInfo: '',
-  role: returnRole(getToken('authToken')),
+  role: returnRole(getToken('authToken')) || "seller",
 };
 
 const authSlice = createSlice({

@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { admin_login, messageClear } from '../../store/Reducers/authReducer';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import InputField from '../../components/InputField';
-import Button from '../../components/Button';
-import Logo from '../../components/Logo';
-import { errorToast, successToast } from '../../utils/utils';
+import React, { useEffect, useState } from "react";
+import { admin_login, messageClear } from "../../store/Reducers/authReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import InputField from "../../components/InputField";
+import Button from "../../components/Button";
+import Logo from "../../components/Logo";
+import { errorToast, successToast } from "../../utils/utils";
 
 const AdminLogin = () => {
   const [searchParams] = useSearchParams();
-  const logoutMessage = searchParams.get('message');
+  const logoutMessage = searchParams.get("message");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [state, setState] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
 
   const { role, errorMessage, loader, successMessage } = useSelector(
@@ -34,13 +34,13 @@ const AdminLogin = () => {
   };
 
   useEffect(() => {
-    if (role === 'admin') {
+    if (role === "admin") {
       setTimeout(() => {
         successToast(successMessage, 1200);
 
         // Navigate after showing the toast
         setTimeout(() => {
-          navigate('/admin/dashboard', { replace: true });
+          navigate("/admin/dashboard", { replace: true });
         }, 1800);
       }, 0);
     }
@@ -58,7 +58,7 @@ const AdminLogin = () => {
   useEffect(() => {
     if (logoutMessage) {
       setTimeout(() => {
-        successToast(logoutMessage || 'logout successfull', 2000);
+        successToast(logoutMessage || "logout successfull", 2000);
       }, 1000);
     }
   }, [logoutMessage]);
@@ -73,7 +73,7 @@ const AdminLogin = () => {
           <form onSubmit={submit}>
             <Logo className="font-bold text-2xl mb-4 flex justify-center" />
             <InputField
-              label={'Email'}
+              label={"Email"}
               type="email"
               placeholder="Ranuj Choudhary"
               id="email"
@@ -85,7 +85,7 @@ const AdminLogin = () => {
               className="p-2 mb-4 placeholder:text-gray-500 rounded-md text-purple-900 border-none focus:outline-2 focus:outline-purple-900"
             />
             <InputField
-              label={'password'}
+              label={"password"}
               type="password"
               placeholder="%&#$@345dgc%*"
               id="password"
@@ -93,7 +93,7 @@ const AdminLogin = () => {
               onChange={inputHandle}
               name="password"
               required
-              autocomplete="current-password"
+              autoComplete="current-password"
               className="p-2 mb-4 placeholder:text-gray-500 rounded-md text-purple-900 border-none focus:outline-2 focus:outline-purple-900"
             />
             <Button
