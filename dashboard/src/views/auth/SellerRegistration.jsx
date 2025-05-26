@@ -3,25 +3,27 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { successToast } from "../../utils/utils";
-import { admin_login } from "../../store/Reducers/authReducer";
-import Button from "../../components/Button";
-const Login = () => {
-  const dispatch = useDispatch();
+import { admin_register } from "../../store/Reducers/authReducer";
+
+import toast from "react-hot-toast";
+
+const SellerRegistration = () => {
   const navigate = useNavigate();
-
-  const { role, errorMessage, loader, successMessage } = useSelector(
-    (state) => state.auth
-  );
-
+  const dispatch = useDispatch();
+  const { successMessage, errorMessage } = useSelector((state) => state.auth);
+  console.log(successMessage, errorMessage);
   const [state, setState] = useState({
+    name: "",
     email: "",
     password: "",
+    image: "seller.png",
+    role: "seller",
   });
 
   const submit = (e) => {
+    // prevent page reloading
     e.preventDefault();
-    dispatch(admin_login(state));
+    dispatch(admin_register(state));
   };
 
   const inputHandle = (e) => {
@@ -32,42 +34,59 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (role === "seller") {
+    if (successMessage) {
       setTimeout(() => {
-        successToast(successMessage, 1200);
+        toast.success(successMessage, {
+          duration: 2000, // Toast will disappear after 2 seconds
+        });
 
         // Navigate after showing the toast
         setTimeout(() => {
-          navigate("/seller/dashboard", { replace: true });
-        }, 1800);
-      }, 0);
+          navigate("/login");
+        }, 1000);
+      }, 500);
     }
-  }, [role, successMessage, navigate]);
+  }, [successMessage, navigate]);
 
   return (
     <main className="bg-purple-300">
       <h1 className="text-center pt-4 text-4xl text-purple-800 font-bold">
-        Seller Login Page
+        Seller Register Page
       </h1>
       <div className="min-w-screen min-h-screen  flex justify-center items-center">
         <div className="shadow-md shadow-purple-700 p-4 w-[350px] bg-purple-600 rounded-md  text-white m-0">
-          <form onSubmit={submit}>
-            <h2 className="font-bold text-2xl mb-4 text-center">
-              Login Your Account
-            </h2>
+          <h2 className="text-2xl text-center font-bold">Create New Account</h2>
+          <p className="text-sm my-2">Please Register Your Account</p>
+          <form onSubmit={submit} className="my-2">
+            <div className="flex flex-col gap-1 mb-4 ">
+              <label htmlFor="name" className="">
+                Name
+              </label>
+              <input
+                placeholder="Ranuj Choudhary"
+                type="text"
+                id="name"
+                name="name"
+                autoComplete="name"
+                onChange={inputHandle}
+                value={state.name}
+                required
+                className="p-2 placeholder:text-gray-500 rounded-md text-purple-900 border-none focus:outline-2 focus:outline-purple-900"
+              />
+            </div>
             <div className="flex flex-col gap-1 mb-4 ">
               <label htmlFor="email" className="">
                 Email
               </label>
               <input
                 type="email"
-                placeholder="Ranuj Choudhary"
+                placeholder="ranujchoudhary@gmail.com"
                 id="email"
-                autoComplete="email"
-                required
-                value={state.email}
-                onChange={inputHandle}
                 name="email"
+                onChange={inputHandle}
+                value={state.email}
+                required
+                autoComplete="email"
                 className="p-2 placeholder:text-gray-500 rounded-md text-purple-900 border-none focus:outline-2 focus:outline-purple-900"
               />
             </div>
@@ -77,41 +96,41 @@ const Login = () => {
                 type="password"
                 placeholder="%&#$@345dgc%*"
                 id="password"
-                value={state.password}
-                onChange={inputHandle}
                 name="password"
-                autoComplete="current-password"
+                onChange={inputHandle}
+                value={state.password}
                 required
+                autoComplete="new-password"
                 className="p-2 placeholder:text-gray-500 rounded-md text-purple-900 border-none focus:outline-2 focus:outline-purple-900"
               />
             </div>
-
-            <p className="text-red-700">{errorMessage ? errorMessage : ""}</p>
-
-            <div className="">
-              <Button
-                type="submit"
-                className="font-bold w-full bg-gray-100 text-purple-700 rounded-md p-2 active:scale-95 "
-                loading={loader}
-                spinner={true}
-                disabled={loader}
-              >
-                Login
-              </Button>
-            </div>
             <div className="flex gap-2  mb-4 items-center">
-              <p
-                htmlFor="checkbox"
-                className="hover:cursor-pointer mt-2 flex gap-2"
-              >
-                Don't have account?
-                <Link to="/register" className="underline">
-                  Sign Up
+              <input
+                type="checkbox"
+                placeholder="%&#$@345dgc%*"
+                id="checkbox"
+                className="peer h-5 w-5 cursor-pointer transition-all rounded-md shadow hover:shadow-md border border-slate-300 checked:bg-amber-600 checked:border-amber-600"
+                required
+              />
+              <label htmlFor="checkbox" className="hover:cursor-pointer">
+                I agree to privacy policy and terms
+              </label>
+            </div>
+            <div className="">
+              <button className="font-bold w-full bg-gray-100 text-purple-700 rounded-md p-2 focus:scale-95 transition-transform duration-200">
+                Sign up
+              </button>
+            </div>
+            <div className="mt-2">
+              <p>
+                Already have an account?{" "}
+                <Link to="/login" className="underline cursor-pointer">
+                  Sign in
                 </Link>
               </p>
             </div>
           </form>
-          <div className="devider flex justify-between items-center gap-1 my-4">
+          <div className="devider flex justify-between items-center gap-1 mt-4">
             <div className="h-[1px] flex-1 bg-black inline-block ">
               <span className="h-[1px] flex-1 bg-black inline-block "></span>
             </div>
@@ -137,4 +156,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SellerRegistration;

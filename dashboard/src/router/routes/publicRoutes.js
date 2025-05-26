@@ -4,6 +4,7 @@ const Register = lazy(() => import('../../views/auth/Register'));
 const AdminLogin = lazy(() => import('../../views/auth/AdminLogin'));
 const NotFound = lazy(() => import('../../views/pages/NotFound'));
 const Home = lazy(() => import('../../views/pages/Home'));
+const SellerRegistration = lazy(() => import('../../views/auth/SellerRegistration'));
 
 export const PublicRoutes = [
   {
@@ -17,6 +18,10 @@ export const PublicRoutes = [
   {
     path: '/register',
     element: <Register />,
+  },
+  {
+    path: '/seller-registration',
+    element: <SellerRegistration />,
   },
   {
     path: '/admin/login',

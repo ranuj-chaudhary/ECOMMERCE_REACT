@@ -1,22 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { FaGoogle } from 'react-icons/fa';
-import { FaFacebook } from 'react-icons/fa';
-import { useDispatch, useSelector } from 'react-redux';
-import { admin_register } from '../../store/Reducers/authReducer';
-import toast from 'react-hot-toast';
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { FaGoogle } from "react-icons/fa";
+import { FaFacebook } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { admin_register } from "../../store/Reducers/authReducer";
+import toast from "react-hot-toast";
 
 const Register = () => {
+  const [togglePassword, setTogglePassword] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { successMessage, errorMessage } = useSelector((state) => state.auth);
-  console.log(successMessage, errorMessage);
+  console.log(errorMessage);
+  
   const [state, setState] = useState({
-    name: '',
-    email: '',
-    password: '',
-    image: 'admin.png',
-    role: 'admin',
+    name: "",
+    email: "",
+    password: "",
+    image: "admin.png",
+    role: "admin",
   });
 
   const submit = (e) => {
@@ -41,7 +43,7 @@ const Register = () => {
 
         // Navigate after showing the toast
         setTimeout(() => {
-          navigate('/login');
+          navigate("/login");
         }, 1000);
       }, 500);
     }
@@ -88,10 +90,10 @@ const Register = () => {
                 className="p-2 placeholder:text-gray-500 rounded-md text-purple-900 border-none focus:outline-2 focus:outline-purple-900"
               />
             </div>
-            <div className="flex flex-col gap-1  mb-4">
+            <div className="flex flex-col gap-1  mb-4 relative">
               <label htmlFor="password">Password</label>
               <input
-                type="password"
+                type={togglePassword ? "password" : "text"}
                 placeholder="%&#$@345dgc%*"
                 id="password"
                 name="password"
@@ -101,6 +103,15 @@ const Register = () => {
                 autoComplete="new-password"
                 className="p-2 placeholder:text-gray-500 rounded-md text-purple-900 border-none focus:outline-2 focus:outline-purple-900"
               />
+              <span
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setTogglePassword((togglePassword) => !togglePassword);
+                }}
+                className="absolute bg-black p-1 bottom-1 right-1 rounded-md cursor-pointer"
+              >
+                👁
+              </span>
             </div>
             <div className="flex gap-2  mb-4 items-center">
               <input
@@ -121,7 +132,7 @@ const Register = () => {
             </div>
             <div className="mt-2">
               <p>
-                Already have an account?{' '}
+                Already have an account?{" "}
                 <Link to="/login" className="underline cursor-pointer">
                   Sign in
                 </Link>

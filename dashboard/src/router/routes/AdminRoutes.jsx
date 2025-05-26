@@ -1,128 +1,128 @@
-import { lazy } from 'react';
-import ProtectRoute from '../../views/auth/ProtectRoute';
+import { lazy } from "react";
+import ProtectRoute from "../../views/auth/ProtectRoute";
 
 const AdminDashboard = lazy(() =>
-  import('../../views/admin/AdminDashboard/AdminDashboard')
+  import("../../views/admin/AdminDashboard/AdminDashboard")
 );
-const Orders = lazy(() => import('../../views/admin/Orders'));
-const Category = lazy(() => import('../../views/admin/Category'));
-const Sellers = lazy(() => import('../../views/admin/Sellers'));
-const PaymentRequest = lazy(() => import('../../views/admin/PaymentRequest'));
-const DeactiveSellers = lazy(() => import('../../views/admin/DeactiveSellers'));
-const SellerRequest = lazy(() => import('../../views/admin/SellerRequest'));
-const SellerDetails = lazy(() => import('../../views/admin/SellerDetails'));
-const ChatSeller = lazy(() => import('../../views/admin/ChatSeller'));
-const OrderDetails = lazy(() => import('../../views/admin/OrderDetails'));
+const Orders = lazy(() => import("../../views/admin/Orders"));
+const Category = lazy(() => import("../../views/admin/Category"));
+const Sellers = lazy(() => import("../../views/admin/Sellers"));
+const PaymentRequest = lazy(() => import("../../views/admin/PaymentRequest"));
+const DeactiveSellers = lazy(() => import("../../views/admin/DeactiveSellers"));
+const SellerRequest = lazy(() => import("../../views/admin/SellerRequest"));
+const SellerDetails = lazy(() => import("../../views/admin/SellerDetails"));
+const ChatSeller = lazy(() => import("../../views/admin/ChatSeller"));
+const OrderDetails = lazy(() => import("../../views/admin/OrderDetails"));
 
 export const AdminRoutes = [
   {
-    path: '/admin/dashboard',
+    path: "/admin/dashboard",
     element: (
       <ProtectRoute>
-        {' '}
-        <AdminDashboard />{' '}
+        {" "}
+        <AdminDashboard />{" "}
       </ProtectRoute>
     ),
-    role: 'admin',
+    role: "admin",
   },
   {
-    path: 'admin/dashboard/orders',
+    path: "admin/dashboard/orders",
     element: (
       <ProtectRoute>
-        {' '}
+        {" "}
         <Orders />
       </ProtectRoute>
     ),
-    role: 'admin',
+    role: "admin",
   },
   {
-    path: 'admin/dashboard/category',
+    path: "admin/dashboard/category",
     element: (
       <ProtectRoute>
-        {' '}
+        {" "}
         <Category />
       </ProtectRoute>
     ),
-    role: 'admin',
+    role: "admin",
   },
   {
-    path: 'admin/dashboard/sellers',
+    path: "admin/dashboard/sellers",
     element: (
       <ProtectRoute>
-        {' '}
+        {" "}
         <Sellers />
       </ProtectRoute>
     ),
-    role: 'admin',
+    role: "admin",
   },
   {
-    path: 'admin/dashboard/payment-request',
+    path: "admin/dashboard/payment-request",
     element: (
       <ProtectRoute>
-        {' '}
+        {" "}
         <PaymentRequest />
       </ProtectRoute>
     ),
-    role: 'admin',
+    role: "admin",
   },
   {
-    path: 'admin/dashboard/deactive-sellers',
+    path: "admin/dashboard/deactive-sellers",
     element: (
       <ProtectRoute>
-        {' '}
+        {" "}
         <DeactiveSellers />
       </ProtectRoute>
     ),
-    role: 'admin',
+    role: "admin",
   },
   {
-    path: 'admin/dashboard/sellers-request',
+    path: "admin/dashboard/sellers-request",
     element: (
       <ProtectRoute>
-        {' '}
+        {" "}
         <SellerRequest />
       </ProtectRoute>
     ),
-    role: 'admin',
+    role: "admin",
   },
   {
-    path: 'admin/dashboard/seller/details/:sellerId',
+    path: "admin/dashboard/seller/details/:sellerId",
     element: (
       <ProtectRoute>
-        {' '}
+        {" "}
         <SellerDetails />
       </ProtectRoute>
     ),
-    role: 'admin',
+    role: "admin",
   },
   {
-    path: 'admin/dashboard/chat-sellers',
+    path: "admin/dashboard/chat-sellers",
     element: (
       <ProtectRoute>
-        {' '}
+        {" "}
         <ChatSeller />
       </ProtectRoute>
     ),
-    role: 'admin',
+    role: "admin",
   },
   {
-    path: 'admin/dashboard/chat-sellers/:sellerId',
+    path: "admin/dashboard/chat-sellers/:sellerId",
     element: (
       <ProtectRoute>
-        {' '}
+        {" "}
         <ChatSeller />
       </ProtectRoute>
     ),
-    role: 'admin',
+    role: "admin",
   },
   {
-    path: 'admin/dashboard/order/details/:orderId',
+    path: "admin/dashboard/order/details/:orderId",
     element: (
       <ProtectRoute>
-        {' '}
+        {" "}
         <OrderDetails />
       </ProtectRoute>
     ),
-    role: 'admin',
+    role: "admin",
   },
 ];
