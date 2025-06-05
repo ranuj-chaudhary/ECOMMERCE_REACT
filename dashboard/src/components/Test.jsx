@@ -1,7 +1,14 @@
-import React from 'react'
-
 const Test = () => {
-  return 
-}
+  return (
+    <div className="main">
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </div>
+  );
+};
 
-export default Test
+export default Test;
