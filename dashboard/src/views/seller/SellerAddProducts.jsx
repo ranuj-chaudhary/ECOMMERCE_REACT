@@ -29,6 +29,18 @@ const SellerAddProducts = () => {
     setShowImages([...showImages, ...imageUrls]);
     setImages(...images, ...files);
   }
+
+  function handleFileChange(img, index){
+    console.log(img)
+    const updatedImages = images.slice()
+    updatedImages[index] = img
+    const updateShowImages = showImages.slice()
+    updateShowImages[index] = { url: URL.createObjectURL(img) }
+    console.log(updatedImages)
+    console.log(updateShowImages)
+    setImages(updatedImages)
+    setShowImages(updateShowImages)
+  }
   /*
    */
   return (
@@ -80,12 +92,13 @@ const SellerAddProducts = () => {
                   alt={""}
                 />
                 <input
-                  multiple
+                  
                   id={i}
                   type="file"
                   name={i}
                   className="cursor-pointer w-full block"
-                  onChange={handleFiles}
+                  onChange={(e) => handleFileChange(e.target.files[0], i)}
+
                 />
               </div>
             );
