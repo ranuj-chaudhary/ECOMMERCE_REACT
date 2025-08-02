@@ -6,19 +6,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { admin_register } from "../../store/Reducers/authReducer";
 import toast from "react-hot-toast";
 
-const Register = () => {
+const AdminRegisteration = () => {
   const [togglePassword, setTogglePassword] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { successMessage, errorMessage } = useSelector((state) => state.auth);
-  console.log(errorMessage);
-  
+
   const [state, setState] = useState({
     name: "",
     email: "",
     password: "",
     image: "admin.png",
-    role: "admin",
+    role: "",
   });
 
   const submit = (e) => {
@@ -49,16 +48,16 @@ const Register = () => {
     }
   }, [successMessage, navigate]);
   return (
-    <main className="bg-purple-300">
+    <main className="bg-purple-300 ">
       <h1 className="text-center pt-4 text-4xl text-purple-800 font-bold">
-        Register Page
+        Admin Registration
       </h1>
-      <div className="min-w-screen min-h-screen  flex justify-center items-center">
+      <div className="min-w-screen min-h-screen  flex justify-center items-center ">
         <div className="shadow-md shadow-purple-700 p-4 w-[350px] bg-purple-600 rounded-md  text-white m-0">
           <h2 className="text-2xl text-center font-bold">Create New Account</h2>
           <p className="text-sm my-2">Please Register Your Account</p>
           <form onSubmit={submit} className="my-2">
-            <div className="flex flex-col gap-1 mb-4 ">
+            <div className="flex flex-col gap-1 mb-2 ">
               <label htmlFor="name" className="">
                 Name
               </label>
@@ -165,4 +164,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default AdminRegisteration;

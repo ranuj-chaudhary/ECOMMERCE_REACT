@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Pagination from "../../components/Pagination";
-import { FaEdit } from 'react-icons/fa';
-import { FaEye } from 'react-icons/fa';
-import { FaTrash } from 'react-icons/fa';
+import { FaEdit } from "react-icons/fa";
+import { FaEye } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
 const SellerAllProducts = () => {
   const [itemsPerPage, setItemsPerPage] = useState(5);
 
@@ -90,17 +90,17 @@ const SellerAllProducts = () => {
                 <td className="py-3 px-4 font-medium whitespace-nowrap">20%</td>
                 <td className="py-3 px-4 font-medium whitespace-nowrap">30</td>
                 <td className="py-3 px-4 font-medium whitespace-nowrap flex items-center justify-evenly">
-                  <Link className="p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50">
-                    {" "}
-                    <FaEdit />{" "}
+                  <Link
+                    to={"/seller/dashboard/edit-product/1"}
+                    className="p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50"
+                  >
+                    <FaEdit />
                   </Link>
                   <Link className="p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50">
-                    {" "}
-                    <FaEye />{" "}
+                    <FaEye />
                   </Link>
                   <Link className="p-[6px] bg-red-500 rounded hover:shadow-lg hover:shadow-red-500/50">
-                    {" "}
-                    <FaTrash />{" "}
+                    <FaTrash />
                   </Link>
                 </td>
               </tr>

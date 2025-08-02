@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const adminSchema = new mongoose.Schema(
   {
@@ -19,12 +19,12 @@ const adminSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      default: 'admin',
+      default: "admin",
     },
     image: {
       type: String,
       default:
-        'https://res.cloudinary.com/dj7k9b8ps/image/upload/v1627262184/ecommerce/avatars/avatar-1_t9x6jg.png',
+        "https://res.cloudinary.com/dj7k9b8ps/image/upload/v1627262184/ecommerce/avatars/avatar-1_t9x6jg.png",
     },
   },
   {
@@ -32,6 +32,6 @@ const adminSchema = new mongoose.Schema(
   }
 );
 
-const AdminModel = mongoose.model('Admin', adminSchema);
+const AdminModel = mongoose.model("Admin", adminSchema);
 
 export default AdminModel;

@@ -1,27 +1,26 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { successToast } from "../../utils/utils";
-import { admin_login } from "../../store/Reducers/authReducer";
+import { errorToast, successToast } from "../../utils/utils";
+import { messageClear, seller_login } from "../../store/Reducers/authReducer";
 import Button from "../../components/Button";
-const Login = () => {
-  const dispatch = useDispatch();
+const SellerLogin = () => {
   const navigate = useNavigate();
-  const firstMessage = useRef(0);
-  const { useInfo, errorMessage, loader, successMessage } = useSelector(
-    (state) => state.auth
-  );
-
+  const dispatch = useDispatch();
   const [state, setState] = useState({
     email: "",
     password: "",
   });
 
+  const { role, errorMessage, loader, successMessage } = useSelector(
+    (state) => state.auth
+  );
+
   const submit = (e) => {
     e.preventDefault();
-    dispatch(admin_login(state));
+    dispatch(seller_login(state));
   };
 
   const inputHandle = (e) => {
@@ -32,17 +31,28 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (useInfo?.role === "user") {
+    if (role) {
       setTimeout(() => {
         successToast(successMessage, 1200);
 
         // Navigate after showing the toast
         setTimeout(() => {
-          navigate("/login", { replace: true });
+          if (role === "seller") {
+            navigate("/seller/dashboard", { replace: true });
+          }
         }, 1800);
       }, 0);
     }
-  }, [useInfo?.role, successMessage, navigate]);
+  }, [role, successMessage, navigate]);
+
+  useEffect(() => {
+    if (errorMessage) {
+      errorToast(errorMessage, 1200);
+      setTimeout(() => {
+        dispatch(messageClear());
+      }, 2000);
+    }
+  }, [errorMessage, dispatch]);
 
   return (
     <main className="bg-purple-300">
@@ -137,4 +147,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SellerLogin;

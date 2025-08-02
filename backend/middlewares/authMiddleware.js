@@ -1,14 +1,14 @@
 // protect all you url
-import jwt from 'jsonwebtoken';
-import { responseReturn } from '../utiles/responseReturn.js';
+import jwt from "jsonwebtoken";
+import { responseReturn } from "../utiles/responseReturn.js";
 
 export async function authMiddleware(req, res, next) {
   const { accessToken } = req.cookies;
 
   if (!accessToken) {
     responseReturn(res, 401, {
-      status: 'error',
-      message: 'Unauthorized: No token',
+      status: "error",
+      message: "Unauthorized: No token",
     });
   } else {
     try {
@@ -19,8 +19,8 @@ export async function authMiddleware(req, res, next) {
       next();
     } catch (error) {
       responseReturn(res, 401, {
-        status: 'error',
-        message: 'Unauthorized: Invalid token',
+        status: "error",
+        message: "Unauthorized: Invalid token",
       });
     }
   }

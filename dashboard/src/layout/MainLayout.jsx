@@ -1,8 +1,8 @@
-import { Outlet } from 'react-router-dom';
-import Header from './Header/Header';
-import Sidebar from './Sidebar/Sidebar';
-import { useState } from 'react';
-import { useResponsiveSidebarEffect } from './../hooks/useResponsiveSidebarEffect ';
+import { Outlet } from "react-router-dom";
+import Header from "./Header/Header";
+import Sidebar from "./Sidebar/Sidebar";
+import { useState } from "react";
+import { useResponsiveSidebarEffect } from "./../hooks/useResponsiveSidebarEffect ";
 
 const MainLayout = () => {
   const [isOpen, setShowSidebar] = useState(false);
