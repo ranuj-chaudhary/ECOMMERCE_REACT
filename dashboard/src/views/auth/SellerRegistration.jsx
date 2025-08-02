@@ -9,15 +9,15 @@ import toast from "react-hot-toast";
 
 const SellerRegistration = () => {
   const navigate = useNavigate();
+
   const dispatch = useDispatch();
   const { successMessage, errorMessage } = useSelector((state) => state.auth);
-  console.log(successMessage, errorMessage);
+
   const [state, setState] = useState({
     name: "",
     email: "",
     password: "",
-    image: "seller.png",
-    role: "seller",
+    method: "user-password",
   });
 
   const submit = (e) => {
@@ -42,7 +42,7 @@ const SellerRegistration = () => {
 
         // Navigate after showing the toast
         setTimeout(() => {
-          navigate("/login");
+          navigate("/seller/login");
         }, 1000);
       }, 500);
     }

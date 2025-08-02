@@ -101,11 +101,11 @@ const SellerAddProducts = () => {
     e.preventDefault();
   }
 
-  console.log(state);
   /*
    */
   return (
     <div className="h-full bg-[var(--primary-color)] p-4 rounded-md text-white overflow-scroll">
+      <h1 className="py-4 text-3xl md:text-4xl">Add Products</h1>
       <form onSubmit={handleSubmit}>
         <div className="row flex w-full gap-4  mb-4">
           <Input

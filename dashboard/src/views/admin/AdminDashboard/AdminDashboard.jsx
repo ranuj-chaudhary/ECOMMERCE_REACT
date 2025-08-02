@@ -1,101 +1,107 @@
-import React, { useState } from 'react';
-import { FaShoppingCart } from 'react-icons/fa';
-import { MdCurrencyRupee } from 'react-icons/md';
-import { BsCart3 } from 'react-icons/bs';
-import { FaPeopleGroup } from 'react-icons/fa6';
-import StatCard from '../../../components/StatCard';
-import BarChart from '../../../components/BarChart';
-import SellerMessages from '../../SellersMessages';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { FaShoppingCart } from "react-icons/fa";
+import { MdCurrencyRupee } from "react-icons/md";
+import { BsCart3 } from "react-icons/bs";
+import { FaPeopleGroup } from "react-icons/fa6";
+import StatCard from "../../../components/StatCard";
+import BarChart from "../../../components/BarChart";
+import SellerMessages from "../../SellersMessages";
+import { Link } from "react-router-dom";
+
 
 const AdminDashboard = () => {
+ 
+
+
   const [chartState] = useState({
     series: [
-      { name: 'Sellers', data: [44, 55, 57, 56, 61, 58, 63, 60, 66] },
-      { name: 'Revenue', data: [76, 85, 101, 98, 87, 105, 91, 114, 94] },
-      { name: 'Orders', data: [35, 41, 36, 26, 45, 48, 52, 53, 41] },
+      { name: "Sellers", data: [44, 55, 57, 56, 61, 58, 63, 60, 66] },
+      { name: "Revenue", data: [76, 85, 101, 98, 87, 105, 91, 114, 94] },
+      { name: "Orders", data: [35, 41, 36, 26, 45, 48, 52, 53, 41] },
     ],
     options: {
-      chart: { type: 'bar', height: 350 },
+      chart: { type: "bar", height: 350 },
       plotOptions: {
-        bar: { horizontal: false, columnWidth: '55%', borderRadius: 5 },
+        bar: { horizontal: false, columnWidth: "55%", borderRadius: 5 },
       },
       legend: {
         show: true,
-        position: 'top', // 'top', 'right', 'left', 'bottom'
-        horizontalAlign: 'center',
-        fontSize: '14px',
+        position: "top", // 'top', 'right', 'left', 'bottom'
+        horizontalAlign: "center",
+        fontSize: "14px",
         fontWeight: 600,
         labels: {
-          colors: '#ffffff', // Gray-700
+          colors: "#ffffff", // Gray-700
           useSeriesColors: false, // If true, uses line/bar colors
         },
       },
       dataLabels: { enabled: false },
-      stroke: { show: true, width: 2, colors: ['transparent'] },
+      stroke: { show: true, width: 2, colors: ["transparent"] },
       xaxis: {
         categories: [
-          'Feb',
-          'Mar',
-          'Apr',
-          'May',
-          'Jun',
-          'Jul',
-          'Aug',
-          'Sep',
-          'Oct',
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
         ],
         title: {
-          text: 'Months',
+          text: "Months",
           offsetY: -5, // helps make space
           style: {
-            color: '#ffffff', // Indigo-600
-            fontSize: '16px',
-            fontWeight: 'bold',
-            fontFamily: 'inherit',
+            color: "#ffffff", // Indigo-600
+            fontSize: "16px",
+            fontWeight: "bold",
+            fontFamily: "inherit",
           },
         },
         labels: {
           style: {
-            colors: '#ffffff', // Indigo-600
-            fontSize: '14px',
+            colors: "#ffffff", // Indigo-600
+            fontSize: "14px",
           },
         },
       },
       yaxis: {
         title: {
-          text: '$ (thousands)',
+          text: "$ (thousands)",
           offsetX: -5,
           style: {
-            color: '#ffffff', // Emerald-500
-            fontSize: '16px',
-            fontWeight: 'bold',
-            fontFamily: 'inherit',
+            color: "#ffffff", // Emerald-500
+            fontSize: "16px",
+            fontWeight: "bold",
+            fontFamily: "inherit",
           },
         },
         labels: {
           style: {
-            colors: '#ffffff', // Indigo-600
-            fontSize: '14px',
+            colors: "#ffffff", // Indigo-600
+            fontSize: "14px",
           },
         },
       },
       fill: { opacity: 1 },
       tooltip: {
-        y: { text: 'Amount (in thounsands)' },
+        y: { text: "Amount (in thounsands)" },
       },
       responsive: [
         {
           breakpoint: 754,
           options: {
             plotOptions: { bar: { horizontal: true } },
-            chart: { height: '500', width: '100%' },
-            legend: { position: 'top' },
+            chart: { height: "500", width: "100%" },
+            legend: { position: "top" },
           },
         },
       ],
     },
   });
+
+
 
   return (
     <div className="px-6 py-4">

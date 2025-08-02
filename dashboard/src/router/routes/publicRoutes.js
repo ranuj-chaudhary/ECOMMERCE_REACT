@@ -1,34 +1,43 @@
-import { lazy } from 'react';
-const Login = lazy(() => import('../../views/auth/Login'));
-const Register = lazy(() => import('../../views/auth/Register'));
-const AdminLogin = lazy(() => import('../../views/auth/AdminLogin'));
-const NotFound = lazy(() => import('../../views/pages/NotFound'));
-const Home = lazy(() => import('../../views/pages/Home'));
-const SellerRegistration = lazy(() => import('../../views/auth/SellerRegistration'));
+import { lazy } from "react";
+const Login = lazy(() => import("../../views/auth/Login"));
+const AdminRegisteration = lazy(() =>
+  import("../../views/auth/AdminRegisteration")
+);
+const AdminLogin = lazy(() => import("../../views/auth/AdminLogin"));
+const NotFound = lazy(() => import("../../views/pages/NotFound"));
+const Home = lazy(() => import("../../views/pages/Home"));
+const SellerRegistration = lazy(() =>
+  import("../../views/auth/SellerRegistration")
+);
+const SellerLogin = lazy(() => import("../../views/auth/SellerLogin"));
 
 export const PublicRoutes = [
   {
-    path: '/',
+    path: "/",
     element: <Home />,
   },
   {
-    path: '/login',
+    path: "/login",
     element: <Login />,
   },
   {
-    path: '/register',
-    element: <Register />,
+    path: "/admin/register",
+    element: <AdminRegisteration />,
   },
   {
-    path: '/seller-registration',
+    path: "/seller/register",
     element: <SellerRegistration />,
   },
   {
-    path: '/admin/login',
+    path: "/admin/login",
     element: <AdminLogin />,
   },
   {
-    path: '*',
+    path: "/seller/login",
+    element: <SellerLogin />,
+  },
+  {
+    path: "*",
     element: <NotFound />,
   },
 ];

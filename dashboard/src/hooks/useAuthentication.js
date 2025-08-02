@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 
 const useAuthentication = () => {
-  const { isAuthenticated } = useSelector((state) => state.auth);
+  const { role } = useSelector((state) => state.auth);
+  let isAuthenticated = false;
+  if (role === "seller" || role === "admin") isAuthenticated = true;
 
-  return isAuthenticated;
+  return { isAuthenticated };
 };
 
 export default useAuthentication;

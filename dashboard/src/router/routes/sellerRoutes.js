@@ -1,80 +1,76 @@
-import { lazy } from 'react';
-import ProtectRoute from '../../views/auth/ProtectRoute';
+import { lazy } from "react";
 
 const SellerDashboard = lazy(() =>
-  import('../../views/seller/SellerDashboard')
+  import("../../views/seller/SellerDashboard")
 );
 const SellerAddProducts = lazy(() =>
-  import('../../views/seller/SellerAddProducts')
+  import("../../views/seller/SellerAddProducts")
 );
 const SellerAllProducts = lazy(() =>
-  import('../../views/seller/SellerAllProducts')
+  import("../../views/seller/SellerAllProducts")
 );
 const SellerDiscountProducts = lazy(() =>
-  import('../../views/seller/SellerDiscountProducts')
+  import("../../views/seller/SellerDiscountProducts")
 );
-const SellerOrders = lazy(() =>
-  import('../../views/seller/SellerOrders')
-);
-const SellerPayments = lazy(() =>
-  import('../../views/seller/SellerPayments')
-);
+const SellerOrders = lazy(() => import("../../views/seller/SellerOrders"));
+const SellerPayments = lazy(() => import("../../views/seller/SellerPayments"));
 const SellerChatCustomer = lazy(() =>
-  import('../../views/seller/SellerChatCustomer')
+  import("../../views/seller/SellerChatCustomer")
 );
 const SellerChatSupport = lazy(() =>
-  import('../../views/seller/SellerChatSupport')
+  import("../../views/seller/SellerChatSupport")
 );
-const SellerProfile = lazy(() =>
-  import('../../views/seller/SellerProfile')
-);
+const SellerProfile = lazy(() => import("../../views/seller/SellerProfile"));
+const EditProduct = lazy(() => import("../../views/seller/EditProduct"));
 export const SellerRoutes = [
   {
-    path: '/seller/dashboard',
-    element: (
-    <SellerDashboard />
-    ),
+    path: "/seller/dashboard",
+    element: <SellerDashboard />,
     role: "seller",
   },
   {
-    path: '/seller/dashboard/add-product',
+    path: "/seller/dashboard/add-product",
     element: <SellerAddProducts />,
-    role: "seller"
+    role: "seller",
   },
   {
-    path: '/seller/dashboard/products',
+    path: "/seller/dashboard/edit-product/:productId",
+    element: <EditProduct />,
+    role: "seller",
+  },
+  {
+    path: "/seller/dashboard/products",
     element: <SellerAllProducts />,
-    role: "seller"
+    role: "seller",
   },
   {
-    path: '/seller/dashboard/discount-product',
+    path: "/seller/dashboard/discount-product",
     element: <SellerDiscountProducts />,
-    role: "seller"
+    role: "seller",
   },
   {
-    path: '/seller/dashboard/orders',
+    path: "/seller/dashboard/orders",
     element: <SellerOrders />,
-    role: "seller"
+    role: "seller",
   },
   {
-    path: '/seller/dashboard/payments',
+    path: "/seller/dashboard/payments",
     element: <SellerPayments />,
-    role: "seller"
+    role: "seller",
   },
   {
-    path: '/seller/dashboard/chat-customer',
+    path: "/seller/dashboard/chat-customer",
     element: <SellerChatCustomer />,
-    role: "seller"
+    role: "seller",
   },
   {
-    path: '/seller/dashboard/chat-support',
+    path: "/seller/dashboard/chat-support",
     element: <SellerChatSupport />,
-    role: "seller"
+    role: "seller",
   },
   {
-    path: '/seller/dashboard/profile',
+    path: "/seller/dashboard/profile",
     element: <SellerProfile />,
-    role: "seller"
+    role: "seller",
   },
-
 ];
