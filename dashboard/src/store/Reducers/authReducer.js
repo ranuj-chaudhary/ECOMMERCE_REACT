@@ -116,7 +116,7 @@ const initialState = {
   loader: false,
   userInfo: "",
   sellerInfo: "",
-  role: returnRole(getToken("accessToken")),
+  role: returnRole(getToken("accessToken")) || "",
 };
 
 const authSlice = createSlice({

@@ -22,7 +22,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (role === "admin") {
+    if (role) {
       dispatch(get_user_info());
     }
   }, [role, dispatch]);

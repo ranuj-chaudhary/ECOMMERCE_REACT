@@ -1,9 +1,11 @@
-import React from 'react';
-import Profile from './Profile';
-import { useSelector } from 'react-redux';
-import MobileSidebar from '../Sidebar/MobileSidebar';
+import React from "react";
+import Profile from "./Profile";
+import { useSelector } from "react-redux";
+import MobileSidebar from "../Sidebar/MobileSidebar";
+
 const Header = ({ setIsOpen, isOpen }) => {
   const { userInfo } = useSelector((state) => state.auth);
+
   return (
     <header className="flex gap-4 justify-between items-center p-2 w-full text-white bg-gray-800">
       <MobileSidebar setIsOpen={setIsOpen} isOpen={isOpen} />

@@ -50,8 +50,9 @@ export const saveToken = (token) => {
 
 export const getToken = (name) => {
   const value = `; ${document.cookie}`;
+  console.log(value);
   const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(";").shift();
+  if (parts.length === 2) return parts.pop();
 };
 
 export const removeToken = (key) => {
@@ -63,7 +64,7 @@ export const returnRole = (token) => {
     const decoded = jwtDecode(token);
     const expiryTime = decoded.exp * 1000;
     const currentTime = new Date(Date.now());
-
+    console.log("decoded", decoded);
     if (currentTime <= expiryTime) {
       return decoded.role;
     } else {
