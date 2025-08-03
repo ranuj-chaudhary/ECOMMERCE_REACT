@@ -18,6 +18,7 @@ export const AdminRoutes = [
     path: "/admin/dashboard",
     element: <AdminDashboard />,
     role: "admin",
+    status: "active",
   },
   {
     path: "admin/dashboard/orders",

@@ -1,4 +1,5 @@
 import { lazy } from "react";
+
 const Login = lazy(() => import("../../views/auth/Login"));
 const AdminRegisteration = lazy(() =>
   import("../../views/auth/AdminRegisteration")
@@ -10,6 +11,7 @@ const SellerRegistration = lazy(() =>
   import("../../views/auth/SellerRegistration")
 );
 const SellerLogin = lazy(() => import("../../views/auth/SellerLogin"));
+const Unauthorised = lazy(() => import("../../views/Unauthorised"));
 
 export const PublicRoutes = [
   {
@@ -35,6 +37,10 @@ export const PublicRoutes = [
   {
     path: "/seller/login",
     element: <SellerLogin />,
+  },
+  {
+    path: "/unauthorised",
+    element: <Unauthorised />,
   },
   {
     path: "*",

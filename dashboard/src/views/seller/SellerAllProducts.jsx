@@ -10,7 +10,7 @@ const SellerAllProducts = () => {
   return (
     <div className="overflow-x-auto mt-4 bg-[var(--primary-color)] p-4 w-full overflow-scroll">
       <div className="flex justify-between items-center gap-4 w-full ">
-        <select
+        <selectresetUser
           name="pages"
           id=""
           className="w-10 h-10 text-center bg-gray-200 rounded-md "
@@ -21,7 +21,7 @@ const SellerAllProducts = () => {
           <option value="3">3</option>
           <option value="4">4</option>
           <option value="5">5</option>
-        </select>
+        </selectresetUser>
 
         <input
           className=" px-4 py-2 rounded border border-gray-300 appearance-none   focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
